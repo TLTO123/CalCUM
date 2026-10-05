@@ -1,0 +1,10 @@
+# Contiene el token de GitHub en texto plano: nunca commitear (ver AGENTS.md)
+opencode.json
+
+# Dependencias y build
+node_modules/
+dist/
+
+# Logs y temporales
+*.log
+npm-debug.log*

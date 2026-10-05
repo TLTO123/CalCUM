@@ -1,0 +1,99 @@
+{
+  "planes": [
+    {
+      "carrera": "Ingeniería en Ciencias de la Computación",
+      "sede": "soyapango",
+      "tipo": "ingenieria",
+      "planVersion": "plan-2024",
+      "modalidad": "Semipresencial",
+      "uvTotal": 161,
+      "materiasTotal": 40,
+      "ciclos": [
+        {
+          "numero": 1,
+          "asignaturas": [
+            { "id": "soyapango:ingenieria:plan-2024:QUG501", "codigo": "QUG501", "nombre": "Química General", "uv": 4, "prerrequisito": null, "electiva": false, "laboratorio": true },
+            { "id": "soyapango:ingenieria:plan-2024:CAD501", "codigo": "CAD501", "nombre": "Cálculo Diferencial", "uv": 4, "prerrequisito": null, "electiva": false, "laboratorio": false },
+            { "id": "soyapango:ingenieria:plan-2024:ANF231", "codigo": "ANF231", "nombre": "Antropología Filosófica", "uv": 3, "prerrequisito": null, "electiva": false, "laboratorio": false }
+          ]
+        },
+        {
+          "numero": 2,
+          "asignaturas": [
+            { "id": "soyapango:ingenieria:plan-2024:CAI501", "codigo": "CAI501", "nombre": "Cálculo Integral", "uv": 4, "prerrequisito": "CAD501", "electiva": false, "laboratorio": false },
+            { "id": "soyapango:ingenieria:plan-2024:PRE104", "codigo": "PRE104", "nombre": "Programación Estructurada", "uv": 4, "prerrequisito": null, "electiva": false, "laboratorio": true }
+          ]
+        }
+      ]
+    },
+    {
+      "carrera": "Ingeniería en Ciencias de la Computación (a distancia)",
+      "sede": "virtual",
+      "tipo": "ingenieria",
+      "planVersion": "plan-2024",
+      "modalidad": "Distancia",
+      "uvTotal": 176,
+      "materiasTotal": 44,
+      "ciclos": [
+        {
+          "numero": 1,
+          "asignaturas": [
+            { "id": "virtual:ingenieria:plan-2024:CAD501", "codigo": "CAD501", "nombre": "Cálculo Diferencial", "uv": 4, "prerrequisito": null, "electiva": false, "laboratorio": false },
+            { "id": "virtual:ingenieria:plan-2024:ANF231", "codigo": "ANF231", "nombre": "Antropología Filosófica", "uv": 3, "prerrequisito": null, "electiva": false, "laboratorio": false }
+          ]
+        }
+      ]
+    },
+    {
+      "carrera": "Técnico en Multimedia",
+      "sede": "soyapango",
+      "tipo": "tecnico",
+      "planVersion": "plan-2026",
+      "modalidad": "Semipresencial",
+      "uvTotal": 64,
+      "materiasTotal": 16,
+      "ciclos": [
+        {
+          "numero": 1,
+          "asignaturas": [
+            { "id": "soyapango:tecnico:plan-2026:TEF201", "codigo": "TEF201", "nombre": "Técnicas Fotográficas", "uv": 4, "prerrequisito": null, "electiva": false, "laboratorio": true }
+          ]
+        }
+      ]
+    },
+    {
+      "carrera": "Técnico en Multimedia (a distancia)",
+      "sede": "virtual",
+      "tipo": "tecnico",
+      "planVersion": "plan-2026",
+      "modalidad": "Distancia",
+      "uvTotal": 64,
+      "materiasTotal": 16,
+      "ciclos": [
+        {
+          "numero": 1,
+          "asignaturas": [
+            { "id": "virtual:tecnico:plan-2026:TEF201", "codigo": "TEF201", "nombre": "Técnicas Fotográficas", "uv": 4, "prerrequisito": null, "electiva": false, "laboratorio": true }
+          ]
+        }
+      ]
+    },
+    {
+      "carrera": "Profesorado en Teología Pastoral",
+      "sede": "soyapango",
+      "tipo": "profesorado",
+      "planVersion": "plan-2024",
+      "modalidad": "Semipresencial",
+      "uvTotal": 103,
+      "materiasTotal": 21,
+      "ciclos": [
+        {
+          "numero": 1,
+          "asignaturas": [
+            { "id": "soyapango:profesorado:plan-2024:PSC101", "codigo": "PSC101", "nombre": "Pensamiento Social Cristiano", "uv": 3, "prerrequisito": null, "electiva": false, "laboratorio": false }
+          ]
+        }
+      ]
+    }
+  ]
+}
