@@ -6,7 +6,10 @@ Memoria del proyecto CalCUM UDB. Actualizar al terminar cada tarea (máx ~50 lí
 
 - Fase: **SDD, spec 001 COMPLETA**. Tareas **T1–T11 ✅** (dominio+datos+estado+formulario+pensum+
   modal+panel CUM+offline). **Checklist manual final ✅**: RNF-1..4, RF-15, RF-16 (tabla en
-  `tasks.md`). `npm test` → 46 pass · typecheck → 0 · build → 0. **Sin git todavía.**
+  `tasks.md`). `npm test` → 46 pass · typecheck → 0 · build → 0.
+- **Git inicializado y con remoto**: `github.com:TLTO123/CalCUM`, rama `main`. Primer commit
+  `5b25559` = spec 001 completa (58 archivos). `.gitignore` excluye `opencode.json` (token),
+  `node_modules/` y `dist/`.
 - **T11 (RF-15)**: `public/sw.js` (stale-while-revalidate same-origin) + registro en `montaje.tsx`
   solo con `import.meta.env.PROD` + `base: './'` en `vite.config.ts` + scripts `build`/`preview`.
 - Fix RNF-2: `NotaModal` es `<form noValidate onSubmit>` → Enter en el input guarda.
@@ -50,4 +53,5 @@ Memoria del proyecto CalCUM UDB. Actualizar al terminar cada tarea (máx ~50 lí
 1. **Spec 002** — dataset completo: `pipeline/` (Node) → extraer/validar los ~50 pensums →
    `data/planes/*.json`, sin cambiar el contrato Zod actual.
 2. **Spec 003** — exportar/compartir el resultado como PNG.
-3. Decidir si se inicializa git (ojo: excluir `opencode.json` y `dist/`).
+3. Repo en GitHub: `TLTO123/CalCUM` (rama `main`). Subir con el comando `/update-repo` (MCP
+   `push_files`). `README.md` está **vacío** → redactarlo cuando toque.
