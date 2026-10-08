@@ -137,6 +137,54 @@ body {
   color: #d05252;
 }
 
+/* --- Exportar/compartir el resultado (spec 003) --- */
+
+.panel-cum__acciones {
+  margin-top: 0.85rem;
+  display: grid;
+  gap: 0.4rem;
+  justify-items: start;
+}
+
+.panel-cum__exportar {
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid transparent;
+  border-radius: 0.6rem;
+  background: #2e9e5b;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.panel-cum__exportar:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
+
+.panel-cum__exportar:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* RNF-4: foco visible y operable con teclado. */
+.panel-cum__exportar:focus-visible {
+  outline: 2px solid #2e9e5b;
+  outline-offset: 2px;
+}
+
+.panel-cum__aviso {
+  margin: 0;
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+/* RF-7: el error se distingue del aviso normal. */
+.panel-cum__aviso--error {
+  color: #d05252;
+  opacity: 1;
+  font-weight: 600;
+}
+
 /* --- Pensum (T9) --- */
 
 .pensum {

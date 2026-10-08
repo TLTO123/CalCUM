@@ -32,6 +32,24 @@ C.U.M = Σ (Nota_i × UV_i) / Σ UV_i
   recargar la pestaña si guardaste notas en la sesión.
 - Funciona **sin conexión** después de la primera carga (service worker).
 
+## Exportar y compartir tu resultado
+
+El panel de resultado tiene **un único botón**, *Compartir resultado*, que genera una **imagen PNG
+en tu propio dispositivo** (canvas, sin librerías ni servidor) con:
+
+- tu C.U.M a dos decimales, el desglose `ΣUM / ΣUV`, la barra de avance y el conteo de materias
+  cursadas, aprobadas y reprobadas;
+- el **nombre de la carrera, su sede y el plan** vigentes, más la **fecha** de generación;
+- tema claro y alta densidad (720×440 rasterizada a **2×** → 1440×880) para que el texto se lea
+  nítido en un chat.
+
+La imagen se entrega a la aplicación que elijas con el **compartir del sistema**; si tu navegador no
+lo permite, el mismo PNG se **descarga** con el nombre `calcum-<carrera>-<aaaa-mm-dd>.png`. Si
+**cancelas** el diálogo del sistema no pasa nada más: no se descarga nada y tu resultado sigue en
+pantalla. Con materias sin registrar la acción aparece deshabilitada con su motivo al lado. Todo
+ocurre **sin ninguna petición de red** y la tarjeta no lleva ningún dato personal: solo carrera,
+plan, fecha y tus propias notas.
+
 ## Requisitos
 
 - **Node.js 24 o superior** — el pipeline de datos corre TypeScript directamente; el proyecto no
@@ -63,7 +81,7 @@ en `docs/02-reporte-dataset.md`.
 ### Verificación
 
 ```bash
-npm test                 # node --test → 118 tests
+npm test                 # node --test → 151 tests
 npm run typecheck        # tsc --noEmit
 npm run build            # build de producción en dist/
 npx vite preview         # sirve dist/ en http://localhost:4173
@@ -73,16 +91,17 @@ npx vite preview         # sirve dist/ en http://localhost:4173
 
 ```
 src/
-  domain/       cálculo del C.U.M, cascada y validación (sin UI ni almacenamiento)
+  domain/       cálculo del C.U.M, cascada, validación y modelo de la tarjeta exportada
   data/         contrato de datos (Zod) y repositorio que lee data/planes.json
   state/        Zustand + persistencia en localStorage por clave de carrera
   components/   panel C.U.M, formulario de carrera, pensum por ciclos, modal de nota
+  export/       dibujo del PNG en canvas (tema claro) y entrega por compartir/descarga
   app/          montaje de la app y estilos
 pipeline/       generación del dataset: pdf.ts, parsear.ts, ocr.ts, validar.ts, generar.ts
                 (las fuentes PDF/JPG y tessdata están versionadas para funcionar sin red)
 data/           planes.json (59 planes) + manifiesto.json (origen y fecha de cada plan)
-tests/          pruebas con node --test: dominio, pipeline y contrato
-specs/          001-calculadora-cum y 002-dataset-pensums (spec, plan y tareas)
+tests/          pruebas con node --test: dominio, exportación, pipeline y contrato
+specs/          001-calculadora-cum, 002-dataset-pensums y 003-exportar-png (spec, plan y tareas)
 docs/           constitución, oferta académica de referencia y reporte del dataset
 ```
 
