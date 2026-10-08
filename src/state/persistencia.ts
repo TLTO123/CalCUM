@@ -40,7 +40,7 @@ export function leerRegistros(almacen: Almacen, claveCarrera: string): RegistroN
   return Object.entries(entradas).map(([asignaturaId, nota]) => ({ asignaturaId, nota }));
 }
 
-/** RF-11: guarda los registros de UNA carrera bajo su clave (tipo|sede|planVersion). */
+/** RF-11: guarda los registros de UNA carrera bajo su clave (tipo|sede|planVersion|nombre). */
 export function escribirRegistros(
   almacen: Almacen,
   claveCarrera: string,

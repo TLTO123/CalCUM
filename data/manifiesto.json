@@ -1,0 +1,601 @@
+[
+  {
+    "carrera": "Ingeniería Biomédica",
+    "sede": "soyapango",
+    "tipo": "ingenieria",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-ingenieria-biomedica-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Ingeniería Eléctrica",
+    "sede": "soyapango",
+    "tipo": "ingenieria",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-ingenieria-electrica-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    },
+    "excepcionRf2": {
+      "clave": "ingenieria|soyapango|plan-2024|Ingeniería Eléctrica",
+      "concepto": "UV",
+      "sitio": 162,
+      "encabezado": 162,
+      "filas": 163,
+      "publicado": 163,
+      "motivo": "La grilla del PDF oficial suma 163 UV en sus 40 materias mientras que la cabecera del PDF y el sitio publican 162; no hay celda contradictoria en todo el corpus (587 códigos consistentes entre sí), así que la discrepancia está en la fuente. Aprobada por el usuario el 2026-10-05: se publica la suma real de la grilla (163 UV) y esta diferencia queda documentada como la única excepción explícita a RF-2."
+    }
+  },
+  {
+    "carrera": "Ingeniería en Aeronáutica",
+    "sede": "soyapango",
+    "tipo": "ingenieria",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-ingenieria-en-aeronautica-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Ingeniería en Ciencias de la Computación",
+    "sede": "soyapango",
+    "tipo": "ingenieria",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-ingenieria-en-ciencias-de-la-computacion-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Ingeniería en Electrónica y Automatización",
+    "sede": "soyapango",
+    "tipo": "ingenieria",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-ingenieria-electronica-y-automatizacion-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Ingeniería en Telecomunicaciones y Redes",
+    "sede": "soyapango",
+    "tipo": "ingenieria",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-ingenieria-en-telecomunicaciones-y-redes-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Ingeniería Industrial",
+    "sede": "soyapango",
+    "tipo": "ingenieria",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-ingenieria-industrial-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Ingeniería Mecánica",
+    "sede": "soyapango",
+    "tipo": "ingenieria",
+    "plan": "plan-2022",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-ingenieria-mecanica-plan-2022.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Ingeniería Mecatrónica",
+    "sede": "soyapango",
+    "tipo": "ingenieria",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-ingenieria-mecatronica-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Administración de Empresas",
+    "sede": "soyapango",
+    "tipo": "licenciatura",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-licenciatura-en-administracion-de-empresas-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Ciencias de la Comunicación",
+    "sede": "soyapango",
+    "tipo": "licenciatura",
+    "plan": "plan-2026",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/planes_2026/plan-de-estudio-licenciatura-en-ciencias-de-la-comunicacion-plan-2026.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Contaduría Pública",
+    "sede": "soyapango",
+    "tipo": "licenciatura",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-licenciatura-en-contaduria-publica-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Diseño Gráfico",
+    "sede": "soyapango",
+    "tipo": "licenciatura",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-licenciatura-en-diseno-grafico-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Diseño Industrial",
+    "sede": "soyapango",
+    "tipo": "licenciatura",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-licenciatura-en-diseno-industrial-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Idiomas con Especialidad en la Adquisición de Lenguas Extranjeras",
+    "sede": "soyapango",
+    "tipo": "licenciatura",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-licenciatura-en-idiomas-con-especialidad-en-lenguas-extranjeras-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Idiomas con Especialidad en Turismo",
+    "sede": "soyapango",
+    "tipo": "licenciatura",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-licenciatura-en-idiomas-con-especialidad-en-turismo-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Marketing",
+    "sede": "soyapango",
+    "tipo": "licenciatura",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-licenciatura-en-marketing-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Teología Pastoral",
+    "sede": "soyapango",
+    "tipo": "licenciatura",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-licenciatura-en-teologia-pastoral-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Asesoría Financiera Sostenible",
+    "sede": "soyapango",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-tecnico-en-asesoria-financiera-sostenible-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Control de la Calidad",
+    "sede": "soyapango",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-tecnico-en-control-de-la-calidad-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Diseño Gráfico",
+    "sede": "soyapango",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-tecnico-en-diseno-grafico-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Gestión del Talento Humano",
+    "sede": "soyapango",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-tecnico-en-gestion-del-talento-humano-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Guía de Turismo Bilingüe",
+    "sede": "soyapango",
+    "tipo": "tecnico",
+    "plan": "plan-2026",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/planes_2026/plan-de-estudio-tecnico-en-guia-de-turismo-bilingue-plan-2026.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Ingeniería Biomédica",
+    "sede": "soyapango",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-tecnico-en-ingenieria-biomedica-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Ingeniería Eléctrica",
+    "sede": "soyapango",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-tecnico-en-ingenieria-electrica-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Ingeniería Electrónica",
+    "sede": "soyapango",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-tecnico-en-ingenieria-electronica-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Ingeniería en Computación",
+    "sede": "soyapango",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-tecnico-en-ingenieria-en-computacion-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Ingeniería Mecánica",
+    "sede": "soyapango",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-tecnico-en-ingenieria-mecanica-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Mantenimiento Aeronáutico",
+    "sede": "soyapango",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-tecnico-en-mantenimiento-aeronautico-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Multimedia",
+    "sede": "soyapango",
+    "tipo": "tecnico",
+    "plan": "plan-2026",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/planes_2026/plan-de-estudio-tecnico-en-multimedia-plan-2026.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Ortesis y Prótesis",
+    "sede": "soyapango",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-tecnico-en-ortesis-y-protesis-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Ortesis y Prótesis (a distancia)",
+    "sede": "soyapango",
+    "tipo": "tecnico",
+    "plan": "plan-2025",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/planes_2025/pensum-tecnico-en-ortesis-y-protesis-distancia-plan-2025.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Profesorado en Teología Pastoral",
+    "sede": "soyapango",
+    "tipo": "profesorado",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-profesorado-en-teologia-pastoral-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Ingeniería en Ciencias de la Computación",
+    "sede": "antiguo-cuscatlan",
+    "tipo": "ingenieria",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-ingenieria-en-ciencias-de-la-computacion-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Ingeniería Industrial",
+    "sede": "antiguo-cuscatlan",
+    "tipo": "ingenieria",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-ingenieria-industrial-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Administración de Empresas",
+    "sede": "antiguo-cuscatlan",
+    "tipo": "licenciatura",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-licenciatura-en-administracion-de-empresas-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Ciencias de la Comunicación",
+    "sede": "antiguo-cuscatlan",
+    "tipo": "licenciatura",
+    "plan": "plan-2026",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/planes_2026/plan-de-estudio-licenciatura-en-ciencias-de-la-comunicacion-plan-2026.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Contaduría Pública",
+    "sede": "antiguo-cuscatlan",
+    "tipo": "licenciatura",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-licenciatura-en-contaduria-publica-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Diseño Gráfico",
+    "sede": "antiguo-cuscatlan",
+    "tipo": "licenciatura",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-licenciatura-en-diseno-grafico-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Idiomas con Especialidad en la Adquisición de Lenguas Extranjeras",
+    "sede": "antiguo-cuscatlan",
+    "tipo": "licenciatura",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-licenciatura-en-idiomas-con-especialidad-en-lenguas-extranjeras-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Idiomas con Especialidad en Turismo",
+    "sede": "antiguo-cuscatlan",
+    "tipo": "licenciatura",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-licenciatura-en-idiomas-con-especialidad-en-turismo-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Marketing",
+    "sede": "antiguo-cuscatlan",
+    "tipo": "licenciatura",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-licenciatura-en-marketing-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Asesoría Financiera Sostenible",
+    "sede": "antiguo-cuscatlan",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-tecnico-en-asesoria-financiera-sostenible-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Diseño Gráfico",
+    "sede": "antiguo-cuscatlan",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-tecnico-en-diseno-grafico-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Gestión del Talento Humano",
+    "sede": "antiguo-cuscatlan",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-tecnico-en-gestion-del-talento-humano-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Guía de Turismo Bilingüe",
+    "sede": "antiguo-cuscatlan",
+    "tipo": "tecnico",
+    "plan": "plan-2026",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/planes_2026/plan-de-estudio-tecnico-en-guia-de-turismo-bilingue-plan-2026.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Ingeniería en Computación",
+    "sede": "antiguo-cuscatlan",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/rebranding2024/pensum-tecnico-en-ingenieria-en-computacion-plan-2024.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Multimedia",
+    "sede": "antiguo-cuscatlan",
+    "tipo": "tecnico",
+    "plan": "plan-2026",
+    "origen": {
+      "url": "https://www.udb.edu.sv/udb_files/content_resource/es/pensum/planes_2026/plan-de-estudio-tecnico-en-multimedia-plan-2026.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Ingeniería en Ciencias de la Computación (a distancia)",
+    "sede": "virtual",
+    "tipo": "ingenieria",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udbvirtual.edu.sv/lib/pensum/pensum_ingenieria_cc_computacion.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Ingeniería Industrial (a distancia)",
+    "sede": "virtual",
+    "tipo": "ingenieria",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udbvirtual.edu.sv/lib/pensum/pensum_ingenieria_industrial.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Administración de Empresas (a distancia)",
+    "sede": "virtual",
+    "tipo": "licenciatura",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udbvirtual.edu.sv/lib/pensum/pensum_licenciatura_en_administracion.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Ciencias de la Comunicación (a distancia)",
+    "sede": "virtual",
+    "tipo": "licenciatura",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udbvirtual.edu.sv/lib/pensum/pensum_licenciatura_comunicaciones.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Diseño Gráfico (a distancia)",
+    "sede": "virtual",
+    "tipo": "licenciatura",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udbvirtual.edu.sv/lib/pensum/pensum_licenciatura_diseno_grafico.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Licenciatura en Marketing (a distancia)",
+    "sede": "virtual",
+    "tipo": "licenciatura",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udbvirtual.edu.sv/lib/pensum/pensum_licenciatura_marketing.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Control de la Calidad (a distancia)",
+    "sede": "virtual",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udbvirtual.edu.sv/lib/pensum/tecnico_control_calidad.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Diseño Gráfico (a distancia)",
+    "sede": "virtual",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udbvirtual.edu.sv/lib/pensum/pensum_tecnico_diseno_grafico.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Ingeniería en Computación (a distancia)",
+    "sede": "virtual",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udbvirtual.edu.sv/lib/pensum/pensum_tecnico_computacion.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Marketing Digital y Ventas (a distancia)",
+    "sede": "virtual",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udbvirtual.edu.sv/lib/pensum/tecnico_marketing_y_ventas.pdf",
+      "fecha": "2026-10-06"
+    }
+  },
+  {
+    "carrera": "Técnico en Multimedia (a distancia)",
+    "sede": "virtual",
+    "tipo": "tecnico",
+    "plan": "plan-2024",
+    "origen": {
+      "url": "https://www.udbvirtual.edu.sv/lib/pensum/pensum_tecnico_multimedia.pdf",
+      "fecha": "2026-10-06"
+    }
+  }
+]

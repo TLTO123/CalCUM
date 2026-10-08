@@ -3,9 +3,8 @@
 ## Qué es este repo
 
 **CalCUM UDB** — calculadora de C.U.M (Coeficiente de Unidades de Mérito) para estudiantes de la
-Universidad Don Bosco (El Salvador). Hoy es un proyecto **en diseño**: `docs/` y `opencode.json`
-son prácticamente todo lo que existe. **Aún no hay código** — no inventes una estructura de app
-existente ni la asumas.
+Universidad Don Bosco (El Salvador). La app (Vite + React) lee el dataset publicado por
+`npm run datos` en `data/planes.json`; el scraping y el parseo de los pensums viven en `pipeline/`.
 
 El plan técnico aprobado (stack, estructura de carpetas, milestones M1–M4) está en la conversación
 de plan, no en un archivo. Si se necesita re-confirmarlo, preguntar al usuario antes de ejecutar.
@@ -18,8 +17,12 @@ datos de la UDB.** Puntos que ya costaron trabajo y que se olvidan fácil:
 
 - La oferta se agrupa por **3 sedes** (Soyapango, Antiguo Cuscatlán, UDB Virtual), no por "modalidad".
   La modalidad real (Semipresencial/Distancia) es un atributo de cada carrera.
-- **Clave única de carrera = `(tipo, sede, plan)`**, nunca el nombre. Homónimos con datos distintos:
-  Ing. en Ciencias de la Computación presencial es 161 UV/40 materias, virtual es 176 UV/44 materias.
+- **Clave única de carrera = `(tipo, sede, plan, nombre)`** — el nombre **sí** entra (RF-4,
+  corregido en la spec 002; la regla vieja era `(tipo, sede, plan)`). Con la tripleta a secas
+  colisionan **11 grupos reales**: 8 ingenierías de Soyapango comparten
+  `ingenieria|soyapango|plan-2024`, así que las notas de una carrera caerían en otra. Los
+  homónimos con datos distintos siguen separados: Ing. en Ciencias de la Computación presencial
+  es 161 UV/40 materias, virtual es 176 UV/44 materias.
 - Las variantes de Antiguo Cuscatlán **reutilizan el mismo PDF de pensum** que Soyapango.
 - Conviven varios planes (`plan-2022`, `plan-2024`, `plan-2025`, `planes_2026`). Versionar siempre.
 
@@ -67,7 +70,8 @@ C.U.M           = Σ (Nota_i × UV_i) / Σ UV_i
   que fallan). Usar **Node v24** para scripts de datos y parsing.
 - Shell es **PowerShell (pwsh)** en Windows — rutas con `C:\`, `$env:TEMP`, sin `&&` entre comandos.
 - Temp aprobado para uso externo: `C:\Users\canta\AppData\Local\Temp\opencode`.
-- El directorio **no es un repo git** todavía.
+- Repo git con remoto `github.com:TLTO123/CalCUM` (rama `main`); rama por tarea cuando haya
+  cambios arriesgados (P4).
 - MCPs configurados en `opencode.json`: `chrome-devtools` (scraping), `context7` (docs de libs),
   `github`. El token de GitHub está en texto plano en `opencode.json` — **no copiarlo a ningún archivo
   del proyecto, y no commitearlo si se inicializa git**.

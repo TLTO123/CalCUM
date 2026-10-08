@@ -8,7 +8,7 @@ import type { RegistroNota } from '../domain/tipos.ts';
 import { escribirRegistros, leerRegistros, listarClavesDeCarrera, type Almacen } from './persistencia.ts';
 
 export interface EstadoStore {
-  /** Clave (tipo|sede|planVersion) de la carrera seleccionada, o null (RF-10: sin selección). */
+  /** Clave (tipo|sede|planVersion|nombre) de la carrera seleccionada, o null (RF-10: sin selección). */
   claveActiva: string | null;
   /** Notas por carrera: { claveCarrera: { asignaturaId: nota } }. */
   registros: Record<string, Record<string, number>>;

@@ -1,57 +1,58 @@
 # MEMORY.md
 
-Memoria del proyecto CalCUM UDB. Actualizar al terminar cada tarea (máx ~50 líneas).
+Memoria del proyecto CalCUM UDB (máx ~50 líneas, actualizar al terminar cada tarea); lo que ya es
+regla permanente se mueve a `AGENTS.md` (fórmula C.U.M, repitencia, alcance, sin backend…).
 
 ## Estado Actual
 
-- Fase: **SDD, spec 001 COMPLETA**. Tareas **T1–T11 ✅** (dominio+datos+estado+formulario+pensum+
-  modal+panel CUM+offline). **Checklist manual final ✅**: RNF-1..4, RF-15, RF-16 (tabla en
-  `tasks.md`). `npm test` → 46 pass · typecheck → 0 · build → 0.
-- **Git inicializado y con remoto**: `github.com:TLTO123/CalCUM`, rama `main`. Primer commit
-  `5b25559` = spec 001 completa (58 archivos). `.gitignore` excluye `opencode.json` (token),
-  `node_modules/` y `dist/`.
-- **T11 (RF-15)**: `public/sw.js` (stale-while-revalidate same-origin) + registro en `montaje.tsx`
-  solo con `import.meta.env.PROD` + `base: './'` en `vite.config.ts` + scripts `build`/`preview`.
-- Fix RNF-2: `NotaModal` es `<form noValidate onSubmit>` → Enter en el input guarda.
-- Dev server: `npx vite` (5173). Gancho RF-3: `/?rf3=1`. Preview: `npx vite preview --port 4173`
-  (**no** `npm run preview -- --port`, npm traga el argumento).
-- Hecho: análisis de proyecto, scraping oferta UDB (`docs/01-oferta-academica-udb.md`), reglas de
-  negocio cerradas, `AGENTS.md`, **`docs/constitution.md` aprobada** (6 principios P1–P6).
-- Specs: `specs/001-calculadora-cum/{spec,plan,tasks}.md` aprobados y cerrados.
-- Stack: **Vite + React + TypeScript + Zustand + Zod** (Tailwind no se usó: CSS propio), sin
-  backend, deploy estático. **Tests con `node --test`** (no Vitest).
+- Spec 001 **COMPLETA**; spec 002 **CERRADA** (`Estado: implementada`, 2026-10-07): T1–T10 ✅ y
+  checklist de cierre en `tasks.md`. `npm run datos` publica **59 planes** + manifiesto +
+  `docs/02-reporte-dataset.md` (0 discrepancias sin aprobar, 1 excepción D10, 39 advertencias
+  RF-10); app arranca en 121 ms y verificada en navegador (3 carreras, cascada sin caminos
+  vacíos, notas estables, consola limpia). `npm test` → **118 pass** · `tsc` 0 · `build` 134 kB.
+- **Git**: `github.com:TLTO123/CalCUM`, `main`; `5b25559` = spec 001. **Pendiente commitear
+  T1–T10** → `/update-repo`, decidiendo binarios: `pipeline/fuentes/` 43 MB, JPG ~8 MB,
+  `tessdata/` 8,4 MB (sin él el OCR no corre sin red, RF-12).
+- Dev: `npx vite` (5173) · gancho `/?rf3=1` · `npm run datos[:refrescar]` · specs `001` y `002`
+  cerradas. **SDD**: aprobación explícita por fase (P4), una tarea a la vez → rojo → verde →
+  marcar → parar.
 
 ## Decisiones (y por qué)
 
-- **C.U.M = Σ(nota×UV) / ΣUV sobre TODAS las materias cursadas** → decisión explícita del usuario;
-  difiere de la convención clásica de "solo aprobadas", no re-litigar.
-- **Repitencia: última nota, cuenta una sola vez** → dedupe con `Map<asignaturaId, nota>`.
-- **Clave de carrera `(tipo, sede, plan)`** → homónimos con UV distintos (presencial vs. virtual).
-- **Alcance v1: solo pregrado, dataset completo (~50 pensums)** → sin piloto acotado.
-- **Nota mínima de aprobación = 6** → solo indicador visual, **no altera la fórmula**.
-- **Selects Tipo → Sede → Carrera** + **pensum en tarjetas/acordeones** + **decimales 1–10** +
-  **exportar PNG/share** → preferencias explícitas del usuario.
-- **Sin backend / sin datos sensibles** → cálculo puro en cliente, `localStorage` por carrera.
-- **SDD** (skill `sdd`) → Constitution → Spec → Plan → Tareas → Implementación; la spec manda y
-  cada fase requiere aprobación explícita (P3, P4); una tarea a la vez, rojo → verde.
+- **Clave de carrera = `(tipo, sede, plan, nombre)`** (RF-4): sin el nombre colisionan 11 grupos
+  (8 ingenierías de Soyapango en `plan-2024`). **Id** = `sede:tipo:plan:slug:carrera:ciclo:código`,
+  electivas `electiva-<orden>` por ciclo (RF-11). Notas del fixture 001 quedan huérfanas sin
+  migrar: sus ids no existen y migrarlas las reasignaría (RF-15 lo prohíbe).
+- **`validar()` triangula sitio ↔ encabezado ↔ filas** con 0 errores exigidos (encabezado `null`
+  ⇒ advertencia). **Excepción RF-2 única**: Ingeniería Eléctrica publica 163 UV (D10).
+- **OCR (B²)**: sin rótulos de ciclo ⇒ `.jpg` del PDF + `itemsDeImagen` + `OPCIONES_OCR` =
+  geometría virtual con **`fusionar: false`** (el fusor es para la capa de texto; con tesseract
+  salía `PensamientoSocial Cristiano`). `cargarImagen` es I/O obligatoria en `EntradaGeneracion`.
+- Fuentes fijas en `pipeline/fuentes/`, red solo con `--refresco`; parser por familia
+  (`OPCIONES_VIRTUAL` texto / `OPCIONES_OCR` imagen). Selects Tipo → Sede · Carrera.
 
 ## Aprendizajes y errores a evitar
 
-- El sitio UDB agrupa por **3 sedes**, no por "modalidad" (modalidad es atributo por carrera).
-- Pensums: PDF infográfico con **texto intercalado entre columnas** → parseo por layout, nunca
-  `extract_text()` simple. Validar `ΣUV == UV publicada` y `conteo == materias publicadas`.
-- **Zustand v5**: un selector que devuelve objeto nuevo ⇒ re-render infinito /
-  "getSnapshot should be cached" → selectores planos + referencias estables.
-- React no repinta si el estado se lee con `getState()` → suscribirse siempre (`useStore`).
-- **No hay Python** (alias Microsoft Store fallan) → Node 24. Shell PowerShell.
-- Algunos enlaces de pensum son `http://` → normalizar a `https://`.
-- `opencode.json` contiene un token en texto plano → no copiarlo al proyecto ni commitearlo.
-- Glob/grep fallan por `Expand-Archive` en PowerShell → usar `Test-Path`/`Select-String`.
+- La oferta se agrupa por **3 sedes** (la modalidad es un atributo); pensums infográficos ⇒
+  **parseo por layout**, validando `ΣUV == UV publicada` y `conteo == publicado`.
+- **Presencial**: totales en caja suelta x≈683/y≈191; región `rótulo−18`; hueco >1,6×mediana
+  entre filas de código = fin de ciclo; la región se decide por el **centro** del ítem.
+- **Virtual**: margen 45, código `[41,60]`, UV `[−55,−25]`, prereq `[4,52]` en fila propia, y
+  correlativo **centrado** ⇒ `[-4,14.5]` (en 0 se perdía la Electiva I del ciclo V: 38 materias).
+- **OCR**: el `4` de una UV es un glifo de 11 px ilegible en página ⇒ relectura con recorte
+  **calibrado por las hermanas de su columna**; la etiqueta `UV` se lee 8–30 pt por debajo del
+  valor ⇒ descartarla antes de calibrar.
+- Prerrequisito publicado **como código**; `Bachillerato`/`-`/`**` ⇒ `null`; huérfano ⇒ advertencia
+  no bloqueante (RF-10). `•` = laboratorio, `*` solo se estripa.
+- pdfjs-dist **legacy** + `destroy()`; sin Python ⇒ Node 24 corre `.ts`; PowerShell con acentos
+  rotos → volcar con el tool `read` o scripts Node.
+- **Zustand v5**: selectores planos. `opencode.json` tiene un token en texto plano → nunca
+  commitearlo. ⚠️ **41/198 nombres** con basura `|` o palabras perdidas (Diseño Gráfico virtual
+  19/39): los conteos no dependen de ellos, sí RF-8.
 
 ## Próximos pasos
 
-1. **Spec 002** — dataset completo: `pipeline/` (Node) → extraer/validar los ~50 pensums →
-   `data/planes/*.json`, sin cambiar el contrato Zod actual.
-2. **Spec 003** — exportar/compartir el resultado como PNG.
-3. Repo en GitHub: `TLTO123/CalCUM` (rama `main`). Subir con el comando `/update-repo` (MCP
-   `push_files`). `README.md` está **vacío** → redactarlo cuando toque.
+1. `/update-repo`: T1–T10 + cierre de spec 002 sin commitear, decidiendo binarios
+   (`pipeline/fuentes/` 43 MB, JPG ~8 MB, `tessdata/` 8,4 MB) · `README.md` está **vacío**.
+2. Arreglo de **nombres OCR** (41/198; RF-8) a decisión del usuario.
+3. **Spec 003** — exportar/compartir el resultado como PNG.

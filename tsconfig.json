@@ -15,5 +15,11 @@
     "lib": ["ES2023", "DOM"],
     "types": ["node"]
   },
-  "include": ["src/**/*.{ts,tsx}", "tests/**/*.{ts,tsx}", "scripts/**/*.ts", "vite.config.ts"]
+  "include": [
+    "src/**/*.{ts,tsx}",
+    "tests/**/*.{ts,tsx}",
+    "pipeline/**/*.{ts,tsx}",
+    "scripts/**/*.ts",
+    "vite.config.ts"
+  ]
 }

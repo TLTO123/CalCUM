@@ -15,11 +15,14 @@ const planes = planesIniciales();
 /** Referencia estable para "sin registros" (evita nuevos objetos por render). */
 const VACIO: Record<string, number> = Object.freeze({});
 
-// Gancho de verificación T8: /?rf3=1 monta el formulario con tipo+sede sin carreras
-// (ingeniería en Antiguo Cuscatlán no existe en el fixture) para ver el estado RF-3.
+// Gancho de verificación (T8/spec 001): /?rf3=1 monta el formulario con un tipo y una sede
+// que **no** conviven en la oferta — Profesorados solo existen en Soyapango, nunca en UDB
+// Virtual — para ver el estado RF-3 "sin resultados". Con los 59 planes reales ya no hay
+// ningún camino muerto en la cascada (lo comprueba tests/dataset.test.ts), así que el estado
+// hay que forzarlo: elegir ingeniería en Antiguo Cuscatlán ya **sí** tiene carreras.
 const params = new URLSearchParams(window.location.search);
 const estadoInicial = params.has('rf3')
-  ? { tipo: 'ingenieria' as const, sede: 'antiguo-cuscatlan' as const }
+  ? { tipo: 'profesorado' as const, sede: 'virtual' as const }
   : undefined;
 
 function App() {
