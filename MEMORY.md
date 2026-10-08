@@ -15,8 +15,8 @@ regla permanente se mueve a `AGENTS.md` (fórmula C.U.M, repitencia, alcance, si
   de `pipeline/fuentes/` + `pipeline/tessdata/`) para que un clon limpio regenere el dataset y
   corra el OCR sin red (RF-12); ningún archivo supera 10 MB.
 - Dev: `npx vite` (5173) · gancho `/?rf3=1` · `npm run datos[:refrescar]` · specs `001` y `002`
-  cerradas. **SDD**: aprobación explícita por fase (P4), una tarea a la vez → rojo → verde →
-  marcar → parar.
+  cerradas · `README.md` redactado. **SDD**: aprobación explícita por fase (P4), una tarea a la
+  vez → rojo → verde → marcar → parar.
 
 ## Decisiones (y por qué)
 
@@ -53,6 +53,5 @@ regla permanente se mueve a `AGENTS.md` (fórmula C.U.M, repitencia, alcance, si
 
 ## Próximos pasos
 
-1. `README.md` está **vacío** (qué es, `npm run datos`, tests, fórmula, estructura).
-2. Arreglo de **nombres OCR** (41/198; RF-8) a decisión del usuario.
-3. **Spec 003** — exportar/compartir el resultado como PNG.
+1. Arreglo de **nombres OCR** (41/198; RF-8) a decisión del usuario.
+2. **Spec 003** — exportar/compartir el resultado como PNG.
