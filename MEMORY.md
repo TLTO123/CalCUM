@@ -10,9 +10,10 @@ regla permanente se mueve a `AGENTS.md` (fórmula C.U.M, repitencia, alcance, si
   `docs/02-reporte-dataset.md` (0 discrepancias sin aprobar, 1 excepción D10, 39 advertencias
   RF-10); app arranca en 121 ms y verificada en navegador (3 carreras, cascada sin caminos
   vacíos, notas estables, consola limpia). `npm test` → **118 pass** · `tsc` 0 · `build` 134 kB.
-- **Git**: `github.com:TLTO123/CalCUM`, `main`; `5b25559` = spec 001. **Pendiente commitear
-  T1–T10** → `/update-repo`, decidiendo binarios: `pipeline/fuentes/` 43 MB, JPG ~8 MB,
-  `tessdata/` 8,4 MB (sin él el OCR no corre sin red, RF-12).
+- **Git**: `github.com:TLTO123/CalCUM`, `main`; `5b25559`/`282fee0` = spec 001, **`c0f9ce9` =
+  spec 002** (T1–T10 + cierre, subido 2026-10-07). Decisión: los binarios **sí entran** (~58 MB
+  de `pipeline/fuentes/` + `pipeline/tessdata/`) para que un clon limpio regenere el dataset y
+  corra el OCR sin red (RF-12); ningún archivo supera 10 MB.
 - Dev: `npx vite` (5173) · gancho `/?rf3=1` · `npm run datos[:refrescar]` · specs `001` y `002`
   cerradas. **SDD**: aprobación explícita por fase (P4), una tarea a la vez → rojo → verde →
   marcar → parar.
@@ -52,7 +53,6 @@ regla permanente se mueve a `AGENTS.md` (fórmula C.U.M, repitencia, alcance, si
 
 ## Próximos pasos
 
-1. `/update-repo`: T1–T10 + cierre de spec 002 sin commitear, decidiendo binarios
-   (`pipeline/fuentes/` 43 MB, JPG ~8 MB, `tessdata/` 8,4 MB) · `README.md` está **vacío**.
+1. `README.md` está **vacío** (qué es, `npm run datos`, tests, fórmula, estructura).
 2. Arreglo de **nombres OCR** (41/198; RF-8) a decisión del usuario.
 3. **Spec 003** — exportar/compartir el resultado como PNG.
