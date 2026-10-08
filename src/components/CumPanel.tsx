@@ -9,7 +9,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Plan, RegistroNota } from '../domain/tipos.ts';
 import { calcularCum } from '../domain/cum.ts';
-import { nombreDeArchivo, prepararTarjeta } from '../domain/exportar.ts';
+import { desgloseDe, nombreDeArchivo, prepararTarjeta } from '../domain/exportar.ts';
 import type { Fecha, Tarjeta } from '../domain/exportar.ts';
 import { dibujarTarjeta } from '../export/dibujar.ts';
 import { entregarImagen } from '../export/entregar.ts';
@@ -135,11 +135,8 @@ export function CumPanel({ plan, registros }: CumPanelProps) {
         {resultado.cum === null ? '—' : resultado.cum.toFixed(2)}
       </p>
 
-      <p className="panel-cum__desglose">
-        {resultado.cum === null
-          ? 'Aún no has registrado ninguna materia.'
-          : `${resultado.sumaUM} UM / ${resultado.sumaUV} UV`}
-      </p>
+      {/* RF-9: mismo texto que la tarjeta exportada (`desgloseDe`, con UM a 2 decimales). */}
+      <p className="panel-cum__desglose">{desgloseDe(resultado)}</p>
 
       <div
         className="panel-cum__progreso"

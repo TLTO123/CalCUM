@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  desgloseDe,
   envolverTexto,
   formatoFecha,
   nombreDeArchivo,
@@ -48,9 +49,24 @@ test('RF-1: valor a dos decimales, desglose ΣUM/ΣUV y conteo igual al del pane
   );
   assert.equal(t.etiqueta, 'Tu C.U.M');
   assert.equal(t.valor, '8.50');
-  assert.equal(t.desglose, '1234 UM / 145 UV');
+  assert.equal(t.desglose, '1234.00 UM / 145 UV');
   assert.equal(t.conteo, '17 / 43 materias cursadas · 14 aprobadas · 3 reprobadas');
   assert.equal(t.progreso, 40); // 17/43 = 39.5 % → 40 %
+});
+
+test('RF-9: las UM del desglose salen a 2 decimales, sin el artefacto de coma flotante', () => {
+  // En pantalla salía `148.39999999999998 UM / 16 UV`; ahora 148.40, como el C.U.M.
+  const r = resultado({
+    cum: 9.27,
+    sumaUM: 148.39999999999998,
+    sumaUV: 16,
+    contadas: 4,
+    aprobadas: 4,
+  });
+  const t = prepararTarjeta(planPrueba(), r, HOY);
+
+  assert.equal(t.desglose, '148.40 UM / 16 UV');
+  assert.equal(desgloseDe(r), t.desglose, 'el panel usa exactamente este mismo texto (RF-9)');
 });
 
 test('RF-1/RF-10: sin materias cursadas => indicador vacío y desglose de estado vacío', () => {

@@ -6,9 +6,10 @@ Memoria de CalCUM UDB (máx ~50 líneas); lo que ya es regla permanente pasa a `
 
 - Specs 001, 002 y **003 CERRADAS** (T1–T8 el 2026-10-07; **cambio D6/D11** = T9–T12 el
   2026-10-08): el compartido que **falla sin abrir diálogo ahora descarga** a los 5 s (antes:
-  30 018 ms y "cancelado" **sin imagen**). `npm test` → **163 pass / 0 fail** · `tsc` 0 · `build`
+  30 018 ms y "cancelado" **sin imagen**). `npm test` → **164 pass / 0 fail** · `tsc` 0 · `build`
   **137,19 kB gzip** (+0,44; límite 5 kB). Verificado en navegador con 4 escenarios, consola 0
-  errores y red solo local.
+  errores y red solo local. Detalle posterior: las **ΣUM del desglose a 2 decimales** (`desgloseDe`
+  en `domain/exportar`, usada por panel y tarjeta) — antes salía `148.39999999999998 UM`.
 - **Git** (`main`, `github.com:TLTO123/CalCUM`): `5b25559`/`282fee0` = 001, `c0f9ce9` = 002,
   `d8d4081` = 003 con T1–T8, **`565ba72` = RF-11/D6**, `e66232d` = MEMORY. `pipeline/` binario
   (~58 MB); nada > 10 MB; `opencode.json` ignorado (token en texto plano).

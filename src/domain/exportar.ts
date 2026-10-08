@@ -45,6 +45,16 @@ const ETIQUETA_VACIA = 'Aún no has registrado ninguna materia.';
 const VALOR_VACIO = '—';
 
 /**
+ * Desglose visible `ΣUM / ΣUV`, con las UM a **2 decimales** como el valor del
+ * C.U.M: sin eso se cuela el artefacto de coma flotante (`148.39999999999998`).
+ * El panel y la tarjeta usan esta misma función, que son idénticos (RF-9).
+ */
+export function desgloseDe(resultado: CumResult): string {
+  if (resultado.cum === null) return ETIQUETA_VACIA;
+  return `${resultado.sumaUM.toFixed(2)} UM / ${resultado.sumaUV} UV`;
+}
+
+/**
  * Prepara el contenido de la imagen a partir del resultado ya calculado.
  * No recalcula el C.U.M: copia lo que el panel muestra (RF-9).
  */
@@ -65,7 +75,7 @@ export function prepararTarjeta(plan: Plan, resultado: CumResult, hoy: Fecha): T
   return {
     etiqueta: 'Tu C.U.M',
     valor: vacio ? VALOR_VACIO : resultado.cum.toFixed(2),
-    desglose: vacio ? ETIQUETA_VACIA : `${resultado.sumaUM} UM / ${resultado.sumaUV} UV`,
+    desglose: desgloseDe(resultado),
     progreso,
     conteo,
     carrera: plan.carrera,

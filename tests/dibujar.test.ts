@@ -117,7 +117,7 @@ test('RF-1/RF-2: se pintan valor, desglose, conteo, carrera, sede, plan y pie', 
 
   assert.ok(pintados.includes('TU C.U.M'), 'etiqueta');
   assert.ok(pintados.includes('8.50'), 'valor a 2 decimales');
-  assert.ok(pintados.includes('1234 UM / 145 UV'), 'desglose');
+  assert.ok(pintados.includes('1234.00 UM / 145 UV'), 'desglose');
   assert.ok(pintados.includes('17 / 43 materias cursadas · 14 aprobadas · 3 reprobadas'), 'conteo');
   assert.ok(pintados.includes(tarjeta.carrera), 'carrera');
   assert.ok(
