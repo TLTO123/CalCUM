@@ -10,10 +10,10 @@ regla permanente se mueve a `AGENTS.md` (fórmula C.U.M, repitencia, alcance, si
   Exporta y comparte desde el panel con `canvas` y **cero dependencias**: 3 cotejos PNG ↔ pantalla,
   Offline con **0 peticiones**, 80–87 kB, 65–96 ms, fallback a descarga y cancelar sin descargar.
   `npm test` → **151 pass / 0 fail** · `tsc` 0 · `build` **136,75 kB gzip** (+2,05 sobre 134,7).
-- **Git**: `github.com:TLTO123/CalCUM`, `main`; `5b25559`/`282fee0` = spec 001, `c0f9ce9` = spec 002.
-  **La spec 003 y sus cambios de `src/`, `tests/`, `README.md` y `MEMORY.md` siguen sin commitear**
-  → subirlos con `/update-repo` al confirmar el cierre. Binarios de `pipeline/` sí van versionados
-  (~58 MB, para regenerar el dataset sin red); ningún archivo supera 10 MB.
+- **Git**: `github.com:TLTO123/CalCUM`, `main`; `5b25559`/`282fee0` = spec 001, `c0f9ce9` = spec 002,
+  **`d8d4081` = spec 003** (T1–T8 + cierre, subido 2026-10-07; 14 archivos, 1 809 líneas). Binarios
+  de `pipeline/` versionados (~58 MB, para regenerar el dataset sin red); ningún archivo supera
+  10 MB; `opencode.json` ignorado (token en texto plano).
 - Dev: `npx vite` (5173) · `npm run datos[:refrescar]` · **SDD**: aprobación explícita por fase (P4)
   y una tarea a la vez → rojo → verde → marcar → parar. `README.md` documenta la exportación.
 
@@ -53,6 +53,6 @@ regla permanente se mueve a `AGENTS.md` (fórmula C.U.M, repitencia, alcance, si
 
 ## Próximos pasos
 
-1. **Commit de la spec 003** con `/update-repo` (`specs/003-exportar-png/`, `src/`, `tests/`,
-   `README.md`, `MEMORY.md`) tras la aprobación del usuario.
-2. Arreglo de **nombres OCR** (41/198; RF-8) a decisión del usuario.
+1. Arreglo de **nombres OCR** (41/198; RF-8) a decisión del usuario.
+2. Idea pendiente (sin spec): si `navigator.share()` se queda esperado con la red caída, un
+   tiempo límite que caiga a descarga (observación de la T6, comportamiento del navegador).
