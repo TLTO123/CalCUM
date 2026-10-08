@@ -1,6 +1,6 @@
 # Plan — Spec 003: Exportar y compartir el resultado como imagen
 
-Estado: aprobado (2026-10-07)
+Estado: **implementada** (2026-10-07; cambio D6/D11 incorporado el 2026-10-08)
 
 Objetivo: generar en el navegador un PNG con el resultado visible del C.U.M y entregarlo al
 sistema para compartirlo o guardarlo, **sin dependencias nuevas y sin ninguna petición de red**.
@@ -10,7 +10,7 @@ sistema para compartirlo o guardarlo, **sin dependencias nuevas y sin ninguna pe
 | RF | Pieza responsable |
 |---|---|
 | RF-1, RF-2, RF-9 | `src/domain/exportar.ts` (`prepararTarjeta`) + `src/export/dibujar.ts` |
-| RF-3, RF-7 | `src/export/entregar.ts` (`canShare` → `share` → descarga) y manejo de error en `CumPanel.tsx` |
+| RF-3, RF-7, RF-11 | `src/export/entregar.ts` (`canShare` → `share` → distinción fallo/cancelación → descarga) y manejo de error en `CumPanel.tsx`; la señal de "hubo diálogo" vive en `src/export/hoja.ts` |
 | RF-4 | `CumPanel.tsx`: acción deshabilitada con el motivo al lado (decisión D9) |
 | RF-5 | `CumPanel.tsx`: solo se invoca dentro del manejador del clic |
 | RF-6 | No hay `fetch` en `src/`; el PNG sale del `canvas` local (se comprueba en el checklist) |
@@ -31,9 +31,10 @@ sistema para compartirlo o guardarlo, **sin dependencias nuevas y sin ninguna pe
 |---|---|
 | `src/domain/exportar.ts` | **Funciones puras** (sin DOM, sin reloj): `prepararTarjeta`, `envolverTexto`, `nombreDeArchivo` |
 | `src/export/dibujar.ts` | **Dibujo**: `dibujarTarjeta(ctx, tarjeta, tema)` sobre un `CanvasRenderingContext2D` que recibe por parámetro |
-| `src/export/entregar.ts` | **Entrega**: `entregarImagen(blob, nombre, { navigator, descargar })` → `compartido` \| `guardado` \| `cancelado` \| `error` |
+| `src/export/entregar.ts` | **Entrega**: `entregarImagen(blob, nombre, { navigator, descargar, hoja, ahora, plazo })` → `compartido` \| `guardado` \| `cancelado` \| `error` |
+| `src/export/hoja.ts` | **Señal de diálogo**: `crearHoja(win, doc)` escucha `blur`/`visibilitychange` mientras `share()` está pendiente y responde `¿huboDialogo?()` |
 | `src/export/tema.ts` | Constantes de la tarjeta (colores, tamaños, escala, tipografía) y `TEMA_CLARO` |
-| `tests/exportar.test.ts`, `tests/dibujar.test.ts`, `tests/entregar.test.ts` | Pruebas con `node --test` sobre las piezas puras |
+| `tests/exportar.test.ts`, `tests/dibujar.test.ts`, `tests/entregar.test.ts`, `tests/hoja.test.ts` | Pruebas con `node --test` sobre las piezas puras |
 
 **Modificados:**
 
@@ -98,16 +99,29 @@ dibujarTarjeta(ctx, tarjeta, tema):
 **Entrega:**
 
 ```
-entregarImagen(blob, nombre, { navigator, descargar }):
+entregarImagen(blob, nombre, { navigator, descargar, hoja, ahora, plazo }):
   archivo ← new File([blob], nombre, { type: 'image/png' })
-  si navigator.canShare?.({ files: [archivo] })  →
-        intentar navigator.share({ files: [archivo] })
-          éxito            → 'compartido'
-          AbortError       → 'cancelado'    # sin descarga (D4)
-          otro error       → descargar(blob, nombre) → 'guardado'
-  si no soporta compartir  → descargar(blob, nombre) → 'guardado'
+  si no hay canShare o devuelve falso
+      → descargar(blob, nombre) → 'guardado'                          # D10 (sin cambios)
+  hoja.reiniciar()                                                    # empieza a escuchar foco (D14)
+  inicio ← ahora()
+  con tiempo límite corriendo (D15), esperar a share({ files: [archivo] }) y resolver:
+      éxito                                    → 'compartido'
+      plazo (5 s) vencido y nunca hubo diálogo  → descargar → 'guardado'      # RF-11
+      rechaza con la hoja vista                 → AbortError ⇒ 'cancelado'   # D4 intacto
+                                                  otro      ⇒ descargar
+      rechaza sin hoja:
+         AbortError + mensaje de cancelación + transcurrido ≥ 300 ms
+                                               → 'cancelado'   # hoja dentro del navegador (Android)
+         cualquier otro caso                    → descargar → 'guardado'     # RF-11
+  si la descarga ya corrió por plazo, los asentamientos tardíos se ignoran (una sola entrega)
   si descargar lanza error → 'error' (RF-7)
+  hoja.desinstalar() en todos los caminos de salida
 ```
+
+El motivo de las dos señales (foco **y** tiempo/mensaje): un diálogo real **tarda en aparecer
+milisegundos y roba el foco**; el fallo medido no abrió nada y esperó 30 018 ms. Un rechazo
+instantáneo (<300 ms) no puede provenir de un diálogo que el usuario llegó a ver.
 
 ## 5. Interfaz
 
@@ -138,6 +152,9 @@ dependencias, cancelar no descarga, tema claro fijo). Este plan añade las técn
 | D11 | **Nombre `calcum-<slug-carrera>-<aaaa-mm-dd>.png`** | Nombre genérico: dos imágenes guardadas no se distinguen y el archivo compartido pierde contexto |
 | D12 | **Tema como constante `TEMA_CLARO` en `src/export/tema.ts`** con comentario que apunta a `estilos.css` | Leer `getComputedStyle` del panel: depende del DOM, no se prueba en Node y la tarjeta saldría distinta según el sistema (D5) |
 | D13 | **Un solo botón y un solo flujo**, sin configuración de tamaño ni de plantilla | Ajustes de resolución/tema en pantalla: más alcance, más tests y una decisión que el usuario no pide |
+| D14 | **Distinguir "fallo" de "cancelación" por la señal de que hubo un diálogo**: mientras `share()` está pendiente se escucha el foco/visibilidad de la página; además, sin esa señal solo se acepta una cancelación con mensaje de cancelación y ≥300 ms | Clasificar solo por el texto del error (`AbortError`): el propio navegador usa `AbortError` tanto para "el usuario canceló" como para "no pude compartir" (caso medido: `Share failed` sin UI), y esa ambigüedad es justo lo que dejaba al usuario sin imagen |
+| D15 | **Tiempo límite de 5 s sin diálogo** → se descarga sin esperar el rechazo del navegador | Esperar el rechazo natural: en el caso medido son **30 s** con el aviso clavado en "Generando imagen…". Plazo mayor (10 s): peor experiencia con el mismo resultado; menor (1 s): arriesga cortar hojas lentas |
+| D16 | **La señal de diálogo vive en `src/export/hoja.ts`** con `win`/`doc` inyectados y oyentes simétricos (se desinstalan siempre) | Ponerlo dentro de `entregar.ts`: convertiría una pieza pura y fácil de probar en Node en una que depende del `window` global |
 
 ## 7. Estrategia de tests (`node --test`)
 
@@ -146,8 +163,11 @@ dependencias, cancelar no descarga, tema claro fijo). Este plan añade las técn
 | `tests/exportar.test.ts` | RF-1, RF-2, RF-9, RNF-3 | `prepararTarjeta` con `hoy` fija ⇒ dos corridas idénticas; valor "8.50"; carrera/sede/plan/fecha presentes; sin campos personales; `cum` null ⇒ indicador vacío; `nombreDeArchivo` en minúsculas sin acentos ni caracteres raros |
 | `tests/exportar.test.ts` (envolver) | RNF-7 | Con medidor falso, nombre largo ⇒ varias líneas, ninguna por encima del ancho máximo; texto corto ⇒ una sola línea |
 | `tests/dibujar.test.ts` | RF-1, RF-2, RF-9, RNF-2, RNF-7 | `ctx` grabador: se pintan valor, desglose, conteo, carrera y fecha; todo `fillText` dentro de los límites; barra al 0 %, al 50 % y al 100 % con el ancho correcto; escala 2× aplicada |
-| `tests/entregar.test.ts` | RF-3, RF-7, RF-5 | `navigator` falso: soportado ⇒ `share` llamado con el archivo y nombre correctos; sin `canShare` ⇒ descarga; `AbortError` ⇒ `cancelado` **sin** descarga (D4); otro error ⇒ descarga; descarga rota ⇒ `error` |
+| `tests/entregar.test.ts` | RF-3, RF-7, RF-5 | `navigator` falso: soportado ⇒ `share` llamado con el archivo y nombre correctos; sin `canShare` ⇒ descarga; `AbortError` **con hoja vista** ⇒ `cancelado` **sin** descarga (D4); otro error ⇒ descarga; descarga rota ⇒ `error` |
+| `tests/entregar.test.ts` (RF-11) | RF-11 | `AbortError: "Share failed"` **sin hoja** (rechazo tardío) ⇒ descarga `guardado`; rechazo **instantáneo** sin hoja ⇒ descarga (no pudo haber diálogo); `AbortError: "Share canceled"` **sin hoja** a los 900 ms ⇒ `cancelado` (hoja dentro del navegador); promesa **pendiente** pasado el plazo ⇒ descarga y, si asienta después, **no** se entrega dos veces |
+| `tests/hoja.test.ts` (nuevo) | RF-11, D14 | Con `win`/`doc` falsos: sin eventos ⇒ `false`; `blur` ⇒ `true`; `visibilitychange` a `hidden` ⇒ `true`; no se reinicia al volver; `desinstalar()` deja el documento sin oyentes |
 | Checklist manual (navegador) | RF-4, RF-5, RF-6, RF-8, RF-10, RNF-1, RNF-4, RNF-5, RNF-6 | Botón deshabilitado con motivo; 3 toques; teclado y `aria-live`; 0 peticiones de red al exportar; peso del PNG < 1 MB; tiempo < 500 ms; exportar en dos carreras distintas |
+| Reproducción del fallo (navegador) | RF-11 | Con el Chrome de escritorio donde `share()` falla sin UI: el flujo termina en **"Imagen guardada en tus descargas."** con el archivo descargado, nunca en "Compartir cancelado" sin archivo |
 
 Criterio: **rojo → verde → marcar tarea → parar**, y los **118 tests existentes siguen en verde**.
 
@@ -167,3 +187,9 @@ Criterio: **rojo → verde → marcar tarea → parar**, y los **118 tests exist
 6. **Trabajo estimado**: ~8 tareas (modelo puro → dibujo → entrega → panel → accesibilidad →
    verificación en navegador → checklist de cierre). Si se superan las 10, se propone partir la
    spec antes de seguir implementando.
+7. **La hoja de compartir puede no robar foco** en algunos navegadores (hojas renderizadas dentro
+   de la propia pestaña): se mitiga con la segunda señal (mensaje de cancelación + ≥300 ms + plazo
+   de 5 s). Si aun así se descargara tras un cancelar real, el perjuicio es mínimo (el usuario se
+   encuentra el PNG en Descargas) y nunca queda sin la imagen, que es lo que ocurría antes.
+8. **Doble entrega si el navegador resuelve tarde** (ya descargado por plazo y luego `compartido`):
+   se ignora todo asentamiento posterior a la primera entrega, con un único punto de decisión.

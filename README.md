@@ -46,7 +46,10 @@ en tu propio dispositivo** (canvas, sin librerías ni servidor) con:
 La imagen se entrega a la aplicación que elijas con el **compartir del sistema**; si tu navegador no
 lo permite, el mismo PNG se **descarga** con el nombre `calcum-<carrera>-<aaaa-mm-dd>.png`. Si
 **cancelas** el diálogo del sistema no pasa nada más: no se descarga nada y tu resultado sigue en
-pantalla. Con materias sin registrar la acción aparece deshabilitada con su motivo al lado. Todo
+pantalla. Y si el navegador **anuncia que puede compartir pero no llega a abrir ningún diálogo**
+(algunos Chrome de escritorio), a los **5 segundos** se rinde y **descarga** el PNG en lugar de
+dejarte sin imagen: solo se habla de "cancelado" cuando hubo un diálogo que de verdad pudiste ver y
+cerrar. Con materias sin registrar la acción aparece deshabilitada con su motivo al lado. Todo
 ocurre **sin ninguna petición de red** y la tarjeta no lleva ningún dato personal: solo carrera,
 plan, fecha y tus propias notas.
 
@@ -81,7 +84,7 @@ en `docs/02-reporte-dataset.md`.
 ### Verificación
 
 ```bash
-npm test                 # node --test → 151 tests
+npm test                 # node --test → 163 tests
 npm run typecheck        # tsc --noEmit
 npm run build            # build de producción en dist/
 npx vite preview         # sirve dist/ en http://localhost:4173

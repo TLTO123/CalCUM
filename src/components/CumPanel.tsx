@@ -14,6 +14,8 @@ import type { Fecha, Tarjeta } from '../domain/exportar.ts';
 import { dibujarTarjeta } from '../export/dibujar.ts';
 import { entregarImagen } from '../export/entregar.ts';
 import type { ResultadoEntrega } from '../export/entregar.ts';
+import { crearHoja } from '../export/hoja.ts';
+import type { Hoja } from '../export/hoja.ts';
 import { TEMA_CLARO } from '../export/tema.ts';
 
 export interface CumPanelProps {
@@ -94,14 +96,21 @@ export function CumPanel({ plan, registros }: CumPanelProps) {
 
     setEstado('generando');
     setMensaje('Generando imagen…');
+    let hoja: Hoja | undefined;
     try {
       const tarjeta = prepararTarjeta(plan, resultado, hoyDe());
       const png = await generarPng(tarjeta);
       if (!png) throw new Error('sin contexto 2D o blob nulo');
 
+      // D14/D16: la hoja testigo escucha el foco solo mientras se intenta entregar
+      // y es quien permite distinguir "fallo" de "cancelación" (RF-11).
+      hoja = crearHoja(window, document);
       const resultadoEntrega = await entregarImagen(png, nombreDeArchivo(tarjeta), {
         navigator,
         descargar: descargarLocal,
+        hoja,
+        ahora: () => performance.now(),
+        plazo: (ms) => new Promise((resolver) => setTimeout(resolver, ms)),
       });
 
       setEstado(resultadoEntrega === 'error' ? 'error' : 'listo');
@@ -110,6 +119,10 @@ export function CumPanel({ plan, registros }: CumPanelProps) {
       // RF-7: mensaje recuperable, el resultado de la pantalla sigue intacto.
       setEstado('error');
       setMensaje('No se pudo generar la imagen. Inténtalo de nuevo.');
+    } finally {
+      // D16: `entregarImagen` ya la desinstala en su `finally`; esto cubre lo
+      // imprevisto antes o después (la hoja es idempotente al desinstalar).
+      hoja?.desinstalar();
     }
   }
 

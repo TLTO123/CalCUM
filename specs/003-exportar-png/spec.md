@@ -1,6 +1,6 @@
 # Spec 003 — Exportar y compartir el resultado como imagen
 
-Estado: implementada (2026-10-07)
+Estado: **implementada** (2026-10-07; cambio D6/D11 incorporado el 2026-10-08)
 
 ## Contexto y objetivo
 
@@ -55,10 +55,10 @@ tiene que ser una acción explícita del usuario, sin red y sin identificadores 
 - RF-2: La imagen incluye la identificación de la carrera (nombre, sede y plan vigente) y la fecha
   de generación, de modo que al compartirla se entienda de dónde sale y de cuándo es.
 - RF-3: CUANDO el usuario activa la acción, EL SISTEMA entrega el PNG a la aplicación que el
-  usuario elija mediante el sistema operativo; SI el navegador no lo permite, ENTONCES el sistema
-  **descarga** el mismo PNG como archivo y no pierde el resultado. SI el usuario **cancela** el
-  diálogo del sistema, ENTONCES el sistema no hace nada más: no descarga y el resultado sigue en
-  pantalla.
+  usuario elija mediante el sistema operativo; SI el navegador **no lo permite o no consigue
+  abrir el compartido**, ENTONCES el sistema **descarga** el mismo PNG como archivo y no pierde el
+  resultado. SI el usuario **cancela un diálogo que sí llegó a mostrarse**, ENTONCES el sistema no
+  hace nada más: no descarga y el resultado sigue en pantalla.
 - RF-4: SI no hay ninguna materia cursada, ENTONCES EL SISTEMA no ofrece exportar ni compartir, y
   explica el motivo junto a la acción.
 - RF-5: EL SISTEMA solo genera o comparte la imagen cuando el usuario lo pide expresamente; nunca
@@ -74,6 +74,12 @@ tiene que ser una acción explícita del usuario, sin red y sin identificadores 
   que está en pantalla).
 - RF-10: EL SISTEMA ofrece una **única acción** de exportar/compartir desde el panel de resultado,
   operable con teclado en móvil y en escritorio.
+- RF-11: SI el intento de compartir termina en error **sin que al usuario se le haya presentado un
+  diálogo de compartir que pudiera cancelar** (p. ej. el navegador anuncia que puede compartir pero
+  no ofrece destinos ni puede abrir la hoja del sistema), ENTONCES EL SISTEMA **descarga** el PNG y
+  lo anuncia como guardado, de modo que el resultado nunca se pierda. SOLO se trata como
+  cancelación —y por tanto sin descarga, RF-3— el caso en que el usuario llegó a ver el diálogo y
+  lo cerró.
 
 ## Requisitos no funcionales
 
@@ -107,6 +113,10 @@ tiene que ser una acción explícita del usuario, sin red y sin identificadores 
 9. Móvil de 360 px → el botón de exportar/compartir y el panel caben sin desplazamiento
    horizontal (RNF-3 de la spec 001).
 10. Sin soporte de canvas en el navegador → mensaje de error recuperable (RF-7).
+11. El navegador **anuncia** `share` pero no puede abrir la hoja de compartir (escritorio Windows
+    sin destinos, sesión controlada por herramientas, Windows sin experiencia de compartir) → el
+    intento falla pasados varios segundos **sin ningún diálogo visible** y el PNG se **descarga**;
+    no se muestra "cancelado", que dejaría al usuario sin la imagen (RF-11).
 
 ## Fuera de alcance
 
@@ -128,6 +138,8 @@ tiene que ser una acción explícita del usuario, sin red y sin identificadores 
   los 3 casos de cotejo manual.
 - La generación ocurre sin ninguna petición de red y sin salir del dispositivo.
 - Con el servicio de compartir no disponible, el flujo termina en un PNG guardable, no en un error.
+- Cuando el navegador no puede abrir el compartido, el usuario termina con el **PNG en sus
+  descargas** y un mensaje de "guardado", nunca con un "cancelado" sin archivo (RF-11).
 - `npm test` en verde (incluida la lógica que prepara el contenido de la imagen) y
   `npm run typecheck` sin errores.
 
@@ -152,9 +164,20 @@ tiene que ser una acción explícita del usuario, sin red y sin identificadores 
   acentos que la app (`#2e9e5b` / `#d05252`), sea cual sea el modo oscuro del sistema.
   Alternativa descartada: leer `getComputedStyle` — depende del DOM, no se prueba en Node y haría
   que el mismo resultado se viera distinto según el dispositivo.
+- **D6 → falla sin diálogo ⇒ descarga; solo una cancelación real no descarga** (2026-10-07, en
+  uso real posterior al cierre). Corrige y delimita **D4**: `AbortError` significa a la vez "el
+  usuario canceló" y "el navegador no pudo compartir", y tratarlas igual dejaba al usuario sin la
+  imagen. Evidencia del caso: `canShare` devolvió `true`, `share()` falló con `AbortError: "Share
+  failed"` **a los 30 s** y la página **nunca perdió el foco**, o sea que no existió diálogo que
+  cancelar; la app respondió "Compartir cancelado" y no guardó nada. Criterio de distinción:
+  cancelación = el usuario llegó a ver y cerrar el diálogo; cualquier otro error = fallo ⇒ descarga
+  (RF-11). Alternativa descartada: descargar ante **cualquier** `AbortError` — en móvil produciría
+  una descarga tras un "no" explícito del usuario, el problema que D4 venía a evitar.
 
 ## Dudas abiertas
 
 *(Ninguna. Las 3 dudas iniciales se resolvieron el 2026-10-07: contenido de la imagen → D1;
 mecanismo de exportación → D2; generación del PNG → D3. En la fase de plan se añadieron D4
-(cancelar no descarga, corrigiendo el RF-3) y D5 (tema claro fijo), aprobadas el mismo día.)*
+(cancelar no descarga, corrigiendo el RF-3) y D5 (tema claro fijo), aprobadas el mismo día.
+El 2026-10-07, en uso real sobre Chrome/Windows, el `AbortError` ambiguo de `share()` dejó al
+usuario sin imagen → nuevo RF-11 y **D6**.)*

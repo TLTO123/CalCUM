@@ -3,8 +3,11 @@
 Estado: aprobadas (2026-10-07)
 
 Regla: una tarea a la vez → test en rojo → código → `node --test` en verde → marcar → parar.
-Cobertura mínima: 8 tareas, todas con comprobación verificable. Los **118 tests existentes** deben
+Cobertura mínima: 8 tareas, todas con comprobación verificable. Los **151 tests existentes** deben
 seguir en verde en cada tarea.
+
+> **Cambio D6/D11 (2026-10-07)**: añadido tras el uso real que dejó al usuario sin imagen (ver
+> `spec.md` RF-11 y D6). Añade las tareas **T9–T12** al final; el resto queda intacto.
 
 - [x] **T1. Modelo puro de la tarjeta.** RF-1, RF-2, RF-9, RNF-3, RNF-7
   - Hecho cuando: existe `src/domain/exportar.ts` con `prepararTarjeta(plan, resultado, hoy)`,
@@ -165,6 +168,76 @@ seguir en verde en cada tarea.
 
 ---
 
+## Cambio D6/D11 — RF-11: el compartido que falla sin diálogo (2026-10-07)
+
+- [x] **T9. Señal de "hubo un diálogo de compartir".** RF-11, D14, D16
+  - Hecho cuando: existe `src/export/hoja.ts` con `crearHoja(win, doc)` que escucha
+    `window blur` y `document visibilitychange` y expone `reiniciar()`, `huboDialogo()` y
+    `desinstalar()`; `tests/hoja.test.ts` está escrito **primero en rojo** y cubre: sin eventos ⇒
+    `false`; `blur` ⇒ `true`; `visibilitychange` hacia `hidden` ⇒ `true`; al volver a `visible`
+    **no** se reinicia; `desinstalar()` deja el documento **sin oyentes** (los dos se quitan).
+    Rojo → verde, `typecheck` en verde.
+  - ✅ 2026-10-08: **rojo → verde**. `tests/hoja.test.ts` (7 tests) primero: `ERR_MODULE_NOT_FOUND`
+    sobre `src/export/hoja.ts`; después el módulo con `VentanaHoja`/`DocumentoHoja` como
+    subconjunto inyectado (D16 — un `window`/`document` real lo comprueba un test de tipos),
+    marca que **una vez puesta no se borra**, oyentes idempotentes y `reiniciar()` que limpia la
+    marca **y** reinstala si hizo falta. `npm test` → **158 pass / 0 fail** (151 + 7) · `tsc` → 0.
+
+- [x] **T10. Entrega: distinguir fallo de cancelación.** RF-3, RF-11, D14, D15
+  - Hecho cuando: `entregarImagen` acepta `{ navigator, descargar, hoja, ahora, plazo }`;
+    `tests/entregar.test.ts` queda **en rojo** con los casos nuevos y todos los existentes en
+    verde: `AbortError` **con hoja vista** ⇒ `cancelado` **sin** descarga (D4 intacto);
+    `AbortError: "Share failed"` **sin hoja**, rechazo tardío ⇒ `guardado` **con** descarga;
+    rechazo **instantáneo** (<300 ms) sin hoja ⇒ `guardado` (no pudo existir diálogo);
+    `AbortError: "Share canceled"` sin hoja a los 900 ms ⇒ `cancelado`; promesa **pendiente** pasado
+    el plazo ⇒ `guardado` y, si asienta después, **una sola entrega**. Rojo → verde, `typecheck`.
+  - ✅ 2026-10-08: **rojo → verde**. 14 tests en `tests/entregar.test.ts`: en rojo fallaron los 5
+    (Share failed → `cancelado` en vez de `guardado`; instantáneo → igual; el pendiente se colgó
+    hasta el `--test-timeout`; y los dos asertos de oyentes D16/D4). Implementación: `Promise.race`
+    entre el intento y `plazo(5000)` (D15), `esCancelacionDetectada` con las 3 reglas de D14
+    (hoja vista ⇒ cancel · <300 ms sin hoja ⇒ fallo · mensaje `/cancel/i` ⇒ cancel) y
+    `desinstalar()` en un `finally` que cubre **todos** los caminos (D16). `hoja`/`ahora`/`plazo`
+    quedan **opcionales con por defecto razonable** (`Date.now` y `setTimeout`) para no dejar
+    `tsc` rojo hasta cablear el panel en la T11 — ahí se inyecta la hoja real.
+    `npm test` → **163 pass / 0 fail** (158 + 5) · `tsc` → 0.
+
+- [x] **T11. Cableado en el panel y reproducción del fallo real.** RF-11, RF-3, RF-8
+  - Hecho cuando: `CumPanel.tsx` crea la hoja justo antes de `share()` y la desinstala en todos los
+    caminos de salida, pasando `ahora` y `plazo`; verificado en el navegador donde `share()` falla
+    **sin abrir nada** (el de la incidencia): el flujo termina en
+    **"Imagen guardada en tus descargas."** con el archivo descargado y el rol `status`,
+    **nunca** en "Compartir cancelado" sin archivo; al **cancelar de verdad** un diálogo que sí se
+    muestra sigue saliendo "cancelado" sin descargar; consola limpia y `npm run build` en verde.
+  - ✅ 2026-10-08: **verificado en Chrome 154 / Windows con `canShare: true`** (el navegador de la
+    incidencia). Cableado: `crearHoja(window, document)` justo antes de `entregarImagen` con
+    `ahora: performance.now` y `plazo: setTimeout`, y `finally { hoja?.desinstalar() }` de refuerzo
+    (idempotente). Cuatro escenarios instrumentados en la página real:
+    | # | Escenario | Resultado |
+    |---|---|---|
+    | A | **Incidencia real**: `share()` sin ninguna hoja, aún sin rechazar | a los **5 009 ms** → descarga `calcum-…-2026-10-08.png` + *"Imagen guardada en tus descargas."* (antes: 30 018 ms y "Compartir cancelado" **sin archivo**) |
+    | B | Diálogo con foco robado + `AbortError: "Share canceled"` a los 610 ms | *"Compartir cancelado…"* y **sin descarga** (D4 intacto) |
+    | C | Rechazo instantáneo (23 ms) sin diálogo | **descarga** directa, sin esperar el plazo |
+    | D | Foco robado + `AbortError: "Share aborted by user"` (mensaje sin "cancel") | *"Compartir cancelado…"* y **sin descarga**: la señal de foco de la T9 **llega** a la decisión |
+    | Consola | 3 mensajes (vite/React), **0 errores**; el rechazo real del `share` pasado los 30 s **no** genera `unhandledrejection` | |
+    | Red | 33 peticiones, todas del dev server (incluye `src/export/hoja.ts`), **ninguna** del flujo de exportar | |
+    `npm run build` → **137,19 kB gzip** (+0,44 sobre 136,75) · `tsc` → 0. *Nota: un diálogo de
+    compartir real no puede mostrarse en este entorno (Chrome/Windows no abre la hoja — esa es la
+    incidencia); el "cancelar de verdad" se simuló con `blur` de ventana + `AbortError`.*
+
+- [x] **T12. Regresión y cierre del cambio.** RF-11 + criterios de finalización
+  - Hecho cuando: `npm test` en verde (los 151 más los nuevos) · `typecheck` 0 · `build` con
+    crecimiento **≤ 5 kB gzip** sobre 136,75 kB; el checklist de cierre lleva la evidencia de
+    **RF-11** y el criterio de finalización nuevo; `spec.md` y `plan.md` pasan a `implementada`;
+    `README.md` y `MEMORY.md` reflejan el comportamiento; commit y push.
+  - ✅ 2026-10-08: **en verde**. `npm test` → **163 pass / 0 fail** (151 + 7 de `hoja` + 5 de
+    `entregar`) · `npm run typecheck` → **0** · `npm run build` → **137,19 kB gzip** de JS
+    (+**0,44 kB** sobre 136,75, límite 5 kB; `package.json` intacto, cero dependencias nuevas).
+    Checklist del cambio añadido más abajo con la evidencia de **RF-11** y el 6.º criterio;
+    `spec.md` y `plan.md` → `Estado: implementada (… 2026-10-08)`; `README.md` documenta el plazo
+    de 5 s y el criterio de cancelación y pasa a **163 tests**; `MEMORY.md` actualizado.
+
+---
+
 ## Checklist de cierre (T8) — 2026-10-07
 
 ### Requisitos funcionales
@@ -179,7 +252,8 @@ seguir en verde en cada tarea.
 - [x] **RF-3 · compartir con fallback y cancelación.** `tests/entregar.test.ts` (9 tests: las cuatro
   rutas) y en navegador T6: `canShare:false` ⇒ "Imagen guardada en tus descargas." con el archivo
   `calcum-…-2026-10-07.png`; `AbortError` ⇒ "Compartir cancelado; tu resultado sigue en pantalla."
-  con **0** anclas de descarga (D4).
+  con **0** anclas de descarga (D4). *Matiz del RF-11 (2026-10-08): cancelar solo cuenta cuando el
+  diálogo llegó a mostrarse — el fallo sin diálogo ahora descarga; ver el checklist del cambio.*
 - [x] **RF-4 · sin materias cursadas no se ofrece.** Botón `disabled` con el motivo visible junto a
   la acción (T4) y enlazado con `aria-describedby` (árbol: `button "Compartir resultado"
   description="Registra al menos una materia…" disabled`, T5).
@@ -236,6 +310,40 @@ seguir en verde en cada tarea.
 
 - [x] `spec.md` pasa a `Estado: implementada (2026-10-07)`.
 - [x] `README.md` documenta la función de compartir/exportar.
+- [x] `MEMORY.md` actualizado.
+
+---
+
+## Checklist del cambio D6/D11 (T12) — 2026-10-08
+
+### Requisito añadido
+
+- [x] **RF-11 · falla sin diálogo ⇒ descarga; solo una cancelación real no descarga.**
+  - **Tests** (`tests/entregar.test.ts`, 5 nuevos; `tests/hoja.test.ts`, 7): `AbortError: "Share
+    failed"` **sin hoja** con rechazo a los 30 018 ms ⇒ `guardado` **con** descarga · rechazo
+    **instantáneo** (<300 ms) sin hoja ⇒ `guardado` (no pudo existir diálogo) · `"Share canceled"`
+    sin hoja a los 900 ms ⇒ `cancelado` (hoja dentro de la pestaña) · promesa **pendiente** pasado
+    el plazo ⇒ `guardado` y **una sola entrega** aunque el navegador asienta después · con **hoja
+    vista** ⇒ `cancelado` sin descarga (D4 intacto) · plazo **no** dispara si la hoja apareció.
+    Señal: `blur`/`visibilitychange` ⇒ hubo diálogo, la marca no se borra y `desinstalar()` deja
+    ventana y documento sin oyentes.
+  - **Navegador** (T11, 4 escenarios en Chrome/Windows con `canShare: true`): la incidencia real →
+    **5 009 ms** y PNG en Descargas con *"Imagen guardada en tus descargas."*; cancelación con
+    foco robado → *"Compartir cancelado…"* sin descarga; rechazo instantáneo (23 ms) → descarga;
+    mensaje sin "cancel" + foco robado → *"cancelado"* (la señal de foco llega a la decisión).
+    Consola **0 errores** (el rechazo real a los 30 s no genera `unhandledrejection`) y red solo
+    local.
+
+### Criterios de finalización (quedan 6 en `spec.md`)
+
+- [x] **Nuevo (6.º):** cuando el navegador no puede abrir el compartido, el usuario termina con el
+  **PNG en sus descargas** y un mensaje de "guardado", nunca con un "cancelado" sin archivo
+  (RF-11) — evidencia en navegador T11-A y en los tests de RF-11.
+
+### Cierre administrativo del cambio
+
+- [x] `spec.md` y `plan.md` → `Estado: implementada (… 2026-10-08)`.
+- [x] `README.md` documenta el plazo de 5 s y el criterio de cancelación; recuento a 163 tests.
 - [x] `MEMORY.md` actualizado.
 
 Si al dividir el trabajo se superan las 10 tareas, propongo partir la spec antes de seguir
