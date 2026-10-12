@@ -30,7 +30,8 @@ Memoria de CalCUM UDB (máx ~50 líneas); lo que ya es regla permanente pasa a `
   **OCR**: sin rótulos ⇒ `.jpg` + `OPCIONES_OCR` (`fusionar: false`); red solo con `--refresco`.
 - **Anexo B (fuera de alcance)**: ~21 nombres dañados que las 5 reglas no ven. Curarlos usa el
   mismo registro; **detectarlos solos** exigiría bajar el umbral de RF-7 o cruzar planes afines
-  (riesgo de FP). Posible spec 005.
+  (riesgo de FP). **Spec 005 dormida** (decisión del usuario, 2026-10-11): no se abre hasta que
+  se decida curar a mano o asumir el riesgo de la detección automática.
 
 ## Aprendizajes y errores a evitar
 
@@ -53,6 +54,9 @@ Memoria de CalCUM UDB (máx ~50 líneas); lo que ya es regla permanente pasa a `
 
 ## Próximos pasos
 
-1. **Spec 005 (pendiente de decidir)**: curar el daño del anexo B (~21 nombres, incluidos los 6
-   del anexo A) o dejarlo solo documentado.
-2. Verificar el compartir en un **móvil real** (el escritorio no abre la hoja: por eso RF-11).
+1. **Sin specs abiertas.** La **005 queda dormida** (decisión del usuario, 2026-10-11): el daño
+   del anexo B (~21 nombres, incluidos los 6 del anexo A) sigue publicado y documentado en la
+   spec 004, sin efecto en el cálculo (solo cambia el texto del nombre). Curar usa el mismo
+   registro; lo caro —detectarlo— ya se hizo en T6.
+2. Verificar el compartir en un **móvil real** (el escritorio no abre la hoja: por eso RF-11);
+   exige HTTPS ⇒ si se publica (Netlify u otro), que sea su propia spec pequeña.
