@@ -77,14 +77,19 @@ npm run datos:refrescar  # además vuelve a descargar los pensums de la UDB (usa
 ```
 
 El proceso **falla ruidosamente** (exit ≠ 0) si la suma de UV o el número de materias de cualquier
-pensum no cuadran con los totales publicados: nunca se publica un dataset parcial. La salida queda
-en `data/planes.json`, la auditoría por carrera en `data/manifiesto.json` y el resumen del proceso
-en `docs/02-reporte-dataset.md`.
+pensum no cuadran con los totales publicados, o si algún **nombre de asignatura** incumple el
+control de cinco reglas (vacío o < 4 caracteres, glifos de la grilla, espacios sobrantes, sin
+mayúscula inicial o terminado en preposición suelta): nunca se publica un dataset parcial. Los
+nombres se **sanean** (glifos y palabras partidas) y, cuando el documento no permite recuperarlos,
+se aplican las **correcciones curadas** de `pipeline/correcciones-nombres.json`, cada una cotejada
+contra el pensum de origen y registrada con su fuente. La salida queda en `data/planes.json`, la
+auditoría por carrera (incluidas las correcciones aplicadas) en `data/manifiesto.json` y el resumen
+del proceso en `docs/02-reporte-dataset.md`.
 
 ### Verificación
 
 ```bash
-npm test                 # node --test → 163 tests
+npm test                 # node --test → 196 tests
 npm run typecheck        # tsc --noEmit
 npm run build            # build de producción en dist/
 npx vite preview         # sirve dist/ en http://localhost:4173
@@ -100,11 +105,13 @@ src/
   components/   panel C.U.M, formulario de carrera, pensum por ciclos, modal de nota
   export/       dibujo del PNG en canvas (tema claro) y entrega por compartir/descarga
   app/          montaje de la app y estilos
-pipeline/       generación del dataset: pdf.ts, parsear.ts, ocr.ts, validar.ts, generar.ts
-                (las fuentes PDF/JPG y tessdata están versionadas para funcionar sin red)
-data/           planes.json (59 planes) + manifiesto.json (origen y fecha de cada plan)
+pipeline/       generación del dataset: pdf.ts, parsear.ts, ocr.ts, correcciones.ts,
+                validar.ts, generar.ts (las fuentes PDF/JPG y tessdata están versionadas
+                para funcionar sin red)
+data/           planes.json (59 planes) + manifiesto.json (origen, fecha y correcciones)
 tests/          pruebas con node --test: dominio, exportación, pipeline y contrato
-specs/          001-calculadora-cum, 002-dataset-pensums y 003-exportar-png (spec, plan y tareas)
+specs/          001-calculadora-cum, 002-dataset-pensums, 003-exportar-png y
+                004-nombres-asignaturas (spec, plan y tareas)
 docs/           constitución, oferta académica de referencia y reporte del dataset
 ```
 
