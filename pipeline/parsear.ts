@@ -149,6 +149,23 @@ const RE_TITULO = /^CICLO\s+(?:([IVXL]+)|(\d+))$/i;
 const RE_UV = /UNIDADES VALORATIVAS:\s*(\d+)/i;
 const RE_MATERIAS = /TOTAL DE MATERIAS A CURSAR:\s*(\d+)/i;
 
+/** Ítem que es **solo** barra: la línea divisoria de la celda, que el lector devuelve como `|`
+ * o `¦` (0,5–1,4 pt en la fuente de Lic. Diseño Gráfico). La regla es textual, no geométrica:
+ * ninguna palabra española es una barra y ninguno de los 1.794 nombres reales la trae legítima. */
+const ES_RUIDO_DE_TABLA = /^[|¦]+$/;
+
+/**
+ * Normaliza el nombre ya compuesto (spec 004, RF-1): sin glifos de tabla —incluso los que el
+ * OCR devuelve dentro de un ítem más largo, como `…Digital —|`—, con un solo espacio entre
+ * palabras y sin espacios en los extremos. Las marcas `•`/`*` de práctica de laboratorio
+ * también se retiran aquí; `laboratorio` se decide antes, sobre el texto crudo.
+ *
+ * Puede devolver `''`: eso lo resuelve `validar` (RF-4), no el parseo (decisión D4 del plan).
+ */
+export function saneadoNombre(crudo: string): string {
+  return crudo.replace(/[•*|¦]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
 /**
  * Misma geometría que `OPCIONES_VIRTUAL`, para un PDF leído **por imagen** (B²).
  *
@@ -545,16 +562,20 @@ export function parsearItems(items: ItemTexto[], opciones: OpcionesParseo = {}):
           .map((l) =>
             [...l.items]
               .filter((it) => !(cfg.prerrequisitoEnFilaPropia && esRellenoDeUv(it)))
+              // RF-1 (spec 004): la línea divisoria de la tabla llega como `|` o `¦` suelto y
+              // no es texto. En el OCR ya se descartó antes del agrupado (`depurarRuido`); aquí
+              // es la compuerta que cubre también la capa de texto y cualquier fuente futura (D1).
+              .filter((it) => !ES_RUIDO_DE_TABLA.test(it.str.trim()))
               .sort((a, b) => a.x - b.x)
               .map((it) => it.str)
               .join(' '),
           )
           .join(' ');
         const laboratorio = crudo.includes('•');
-        const nombre = crudo.replace(/[•*]/g, ' ').replace(/\s+/g, ' ').trim();
-        if (nombre.length === 0) {
-          throw new Error(`La asignatura ${codigo} del ciclo ${titulo.numero} salió sin nombre`);
-        }
+        // D4 (plan): un nombre que queda vacío **no lanza aquí**: vuelve `''` y lo decide
+        // `validar`, donde están la identidad de la carrera y el registro de correcciones
+        // (RF-3/RF-4). Si no, `DPA919` rompería la generación antes de poder corregirlo.
+        const nombre = saneadoNombre(crudo);
 
         asignaturas.push({
           codigo,

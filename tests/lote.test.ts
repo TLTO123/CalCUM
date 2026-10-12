@@ -16,6 +16,8 @@ import {
   redactarReporte,
   type EntradaGeneracion,
 } from '../pipeline/generar.ts';
+import type { CorreccionNombre } from '../pipeline/correcciones.ts';
+import { prefijoDePlan } from '../pipeline/identificadores.ts';
 import { esquemaPlan } from '../src/data/esquema.ts';
 
 const PDF_PRESENCIAL = new URL(
@@ -46,11 +48,16 @@ const sinImagen = async (url: string): Promise<Uint8Array> => {
   throw new Error(`el OCR no debe pedirse para ${url}`);
 };
 
-function entrada(hoy: string, manifiesto = [presencial, virtual]): EntradaGeneracion {
+function entrada(
+  hoy: string,
+  manifiesto = [presencial, virtual],
+  correcciones: readonly CorreccionNombre[] = [],
+): EntradaGeneracion {
   return {
     manifiesto: manifiesto as EntradaGeneracion['manifiesto'],
     fuentes: FUENTES,
     cargarImagen: sinImagen,
+    correcciones,
     hoy,
   };
 }
@@ -97,6 +104,7 @@ test('T8: falta una fuente ⇒ error que señala la carrera exacta (RF-13)', asy
     manifiesto: [presencial, virtual] as EntradaGeneracion['manifiesto'],
     fuentes: new Map([[presencial.urlPensum as string, FUENTES.get(presencial.urlPensum as string)!]]),
     cargarImagen: sinImagen,
+    correcciones: [],
     hoy: '2026-10-05',
   };
   await assert.rejects(generarDataset(sinFuente), (e: Error) => {
@@ -189,6 +197,7 @@ function entradaElectrica(hoy: string): EntradaGeneracion {
     manifiesto: [electrica] as EntradaGeneracion['manifiesto'],
     fuentes: FUENTE_ELECTRICA,
     cargarImagen: sinImagen,
+    correcciones: [],
     hoy,
   };
 }
@@ -224,4 +233,138 @@ test('T8: la excepción RF-2 aprobada publica la suma de la grilla y documenta l
   assert.match(reporte, /encabezado=162/);
   assert.match(reporte, /filas=163/);
   assert.match(reporte, /aprobada por el usuario/i);
+});
+
+// --- T5 (RF-3, RF-6, RF-8) — correcciones curadas cableadas en la generación -----------------
+//
+// El registro (`pipeline/correcciones-nombres.json`) entra **inyectado**, como las fuentes (D3),
+// y se aplica entre identificar y validar: RF-3 publica el nombre curado, RF-6 deja constancia
+// en el manifiesto y en el reporte con su asignatura y su documento, y RF-8 garantiza que no
+// cambia **ningún otro campo**. Lo que no se aplica nunca se ignora en silencio (caso límite 8).
+
+/** Corrección de prueba apuntando a la primera asignatura de un plan real ya generado. */
+async function correccionDe(hoy: string, nombre: string): Promise<CorreccionNombre> {
+  const base = await generarDataset(entrada(hoy));
+  const a = base.planes[0]!.ciclos[0]!.asignaturas[0]!;
+  return {
+    id: a.id,
+    nombre,
+    fuente: 'pensum-prueba.pdf',
+    motivo: 'nombre dañado en la extracción; cotejado contra el PDF del pensum',
+  };
+}
+
+test('T5: la generación publica el nombre corregido y lo registra (RF-3/RF-6/RF-8)', async () => {
+  const hoy = '2026-10-05';
+  const base = await generarDataset(entrada(hoy));
+  const original = base.planes[0]!.ciclos[0]!.asignaturas[0]!;
+  const correccion: CorreccionNombre = {
+    id: original.id,
+    nombre: 'Nombre Curado En Prueba',
+    fuente: 'pensum-prueba.pdf',
+    motivo: 'nombre dañado en la extracción; cotejado contra el PDF del pensum',
+  };
+
+  const corregido = await generarDataset(entrada(hoy, undefined, [correccion]));
+
+  // RF-3: el plan publicado lleva el nombre curado en la asignatura que lo pedía.
+  const salida = corregido.planes[0]!.ciclos[0]!.asignaturas[0]!;
+  assert.equal(salida.nombre, 'Nombre Curado En Prueba');
+  assert.equal(salida.id, original.id);
+
+  // RF-8: el resto del dataset byte a byte igual — nada más que un nombre cambió.
+  const esperado = structuredClone(base.planes);
+  esperado[0]!.ciclos[0]!.asignaturas[0]!.nombre = 'Nombre Curado En Prueba';
+  assert.deepEqual(corregido.planes, esperado);
+
+  // RF-6: el manifiesto publicado la registra con su asignatura, su nombre previo y su fuente.
+  const registro = corregido.manifiestoPublicado[0]!.correcciones;
+  assert.equal(registro?.length, 1, JSON.stringify(corregido.manifiestoPublicado));
+  assert.equal(registro![0]!.id, original.id);
+  assert.equal(registro![0]!.codigo, original.codigo);
+  assert.equal(registro![0]!.ciclo, base.planes[0]!.ciclos[0]!.numero);
+  assert.equal(registro![0]!.nombreAnterior, original.nombre);
+  assert.equal(registro![0]!.fuente, 'pensum-prueba.pdf');
+  assert.equal(
+    corregido.manifiestoPublicado[1]!.correcciones,
+    undefined,
+    'el otro plan no tiene correcciones: la clave no aparece',
+  );
+
+  // RF-6: el reporte la lista con asignatura, documento y motivo.
+  assert.equal(corregido.correcciones.length, 1);
+  const reporte = redactarReporte(corregido);
+  assert.match(reporte, /Correcciones curadas/);
+  assert.match(reporte, /Nombre Curado En Prueba/);
+  assert.match(reporte, /pensum-prueba\.pdf/);
+  assert.match(reporte, new RegExp(original.codigo));
+  assert.match(reporte, /cotejado contra el PDF/);
+});
+
+test('T5: una corrección obsoleta detiene todo y no se escribe nada (caso límite 8/RF-13)', async () => {
+  const escrituras: Array<[string, string]> = [];
+  const obsoleta: CorreccionNombre = {
+    // Prefijo del plan real de la fuente: la carrera existe, la asignatura ya no (caso límite 8).
+    id: `${prefijoDePlan(presencial)}:1:ZZZ999`,
+    nombre: 'Nombre Que Ya No Existe',
+    fuente: 'pensum-antiguo.pdf',
+    motivo: 'la UDB publicó un pensum nuevo y esa asignatura ya no está',
+  };
+
+  await assert.rejects(
+    ejecutarGeneracion({
+      manifiesto: [presencial] as EntradaGeneracion['manifiesto'],
+      fuentes: FUENTES,
+      cargarImagen: sinImagen,
+      correcciones: [obsoleta],
+      hoy: '2026-10-05',
+      escribir: async (ruta, contenido) => {
+        escrituras.push([ruta, contenido]);
+      },
+    }),
+    (e: Error) => {
+      assert.match(e.message, /Ingeniería en Ciencias de la Computación/, 'carrera exacta (RF-13)');
+      assert.match(e.message, /ZZZ999/, 'la corrección se señala con su id');
+      assert.match(e.message, /id-inexistente/);
+      return true;
+    },
+  );
+  assert.deepEqual(escrituras, [], 'no puede escribir nada si la generación falla');
+});
+
+test('T5: una corrección de una carrera que ya no está en el manifiesto también detiene', async () => {
+  const escrituras: Array<[string, string]> = [];
+  const fantasma: CorreccionNombre = {
+    id: 'soyapango:ingenieria:plan-1999:correccion-fantasma:1:ZZZ999',
+    nombre: 'Nombre Huérfano',
+    fuente: 'pensum-antiguo.pdf',
+    motivo: 'la carrera ya no figura en el manifiesto',
+  };
+
+  await assert.rejects(
+    ejecutarGeneracion({
+      manifiesto: [presencial] as EntradaGeneracion['manifiesto'],
+      fuentes: FUENTES,
+      cargarImagen: sinImagen,
+      correcciones: [fantasma],
+      hoy: '2026-10-05',
+      escribir: async (ruta, contenido) => {
+        escrituras.push([ruta, contenido]);
+      },
+    }),
+    (e: Error) => {
+      assert.match(e.message, /correccion-fantasma/);
+      assert.match(e.message, /manifiesto/);
+      return true;
+    },
+  );
+  assert.deepEqual(escrituras, []);
+});
+
+test('T5: dos corridas con la misma entrada y el mismo registro dan el mismo byte (RF-9/RF-12)', async () => {
+  const correccion = await correccionDe('2026-10-05', 'Nombre Curado Repetible');
+  const a = await generarDataset(entrada('2026-10-05', undefined, [correccion]));
+  const b = await generarDataset(entrada('2026-10-05', undefined, [correccion]));
+  assert.equal(JSON.stringify(a), JSON.stringify(b), 'el registro rompió la reproducibilidad');
+  assert.equal(a.planes[0]!.ciclos[0]!.asignaturas[0]!.nombre, 'Nombre Curado Repetible');
 });

@@ -7,9 +7,11 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { itemsDeDocumento } from '../pipeline/pdf.ts';
+import { depurarRuido } from '../pipeline/ocr.ts';
 import {
   hayRotulosDeCiclo,
   parsearItems,
+  saneadoNombre,
   OPCIONES_OCR,
   OPCIONES_VIRTUAL,
   type ResultadoParseo,
@@ -406,4 +408,101 @@ test('T5: un nombre ancho no se cuela en la columna vecina', () => {
     porCodigo.get('DPS104')?.nombre,
     'Diseño y Programación de Software Multiplataforma',
   );
+});
+
+// --- spec 004, RF-2 — las líneas de la tabla no son texto -------------------------------
+
+test('RF-2 (spec 004): los glifos de tabla (`|`, `¦`) no llegan al agrupado', () => {
+  const ruidosos = [
+    { str: 'Diseño de', x: 0, y: 100, width: 40 },
+    // Línea divisoria leída como glifo: en el pensum de Lic. Diseño Gráfico miden 0,5–1,4 pt.
+    { str: '|', x: 42, y: 100, width: 0.5 },
+    { str: 'Contenidos Multimedia', x: 44, y: 100, width: 90 },
+    { str: ' | ', x: 46, y: 90, width: 1.2 },
+    { str: '¦', x: 60, y: 88, width: 1.4 },
+    // La regla es textual, no geométrica: el ancho no salva a una barra suelta.
+    { str: '|', x: 300, y: 700, width: 67.2 },
+    { str: '||', x: 320, y: 700, width: 3 },
+    { str: 'Creatividad', x: 0, y: 60, width: 50 },
+  ];
+
+  assert.deepEqual(
+    depurarRuido(ruidosos).map((i) => i.str),
+    ['Diseño de', 'Contenidos Multimedia', 'Creatividad'],
+  );
+});
+
+test('RF-2 (spec 004): una `|` que forma parte de un texto no se descarta', () => {
+  const mezcla = [
+    { str: 'C++|C#', x: 0, y: 10, width: 30 },
+    { str: 'A|B', x: 40, y: 10, width: 12 },
+    { str: '|A', x: 60, y: 10, width: 8 },
+  ];
+  assert.deepEqual(
+    depurarRuido(mezcla).map((i) => i.str),
+    ['C++|C#', 'A|B', '|A'],
+    'solo se descarta lo que es únicamente barra(s)',
+  );
+});
+
+test('RF-2 (spec 004): depurar no cambia ni el orden ni las coordenadas del resto', () => {
+  const items2 = [
+    { str: 'Técnica', x: 12, y: 34, width: 56 },
+    { str: '|', x: 70, y: 34, width: 0.5 },
+    { str: 'Visual', x: 72, y: 34, width: 40 },
+  ];
+  const depurados = depurarRuido(items2);
+  assert.deepEqual(depurados, [items2[0], items2[2]]);
+});
+
+// --- spec 004, RF-1 — el nombre se compone sin ruido y normalizado -----------------------
+
+/** Fila de la plantilla presencial: correlativo `[-11..2]`, código `[21..36]`, UV `[28..52]`. */
+const fila = (str: string, x: number, y: number, width = 20) => ({ str, x, y, width });
+
+test('RF-1 (spec 004): la línea de tabla no compone el nombre y el resto de la fila no cambia', () => {
+  const conRuido = [
+    fila('CICLO I', 100, 500),
+    fila('1', 95, 470), // correlativo
+    fila('AAA111', 125, 470), // código
+    fila('Diseño de ', 90, 460), // la celda trae un espacio colgante
+    fila('|', 112, 460, 0.5), // línea divisoria de la tabla
+    fila('Contenidos Multimedia', 115, 460, 90),
+    fila('4', 130, 450), // UV
+  ];
+
+  const r = parsearItems(conRuido);
+  const a = r.ciclos[0]!.asignaturas[0]!;
+
+  assert.equal(a.nombre, 'Diseño de Contenidos Multimedia');
+  assert.equal(a.codigo, 'AAA111');
+  assert.equal(a.uv, 4);
+  assert.equal(a.correlativo, 1);
+});
+
+test('RF-1 (spec 004): un nombre que es todo ruido no lanza, devuelve vacío (D4)', () => {
+  const soloRuido = [
+    fila('CICLO I', 100, 500),
+    fila('1', 95, 470),
+    fila('BBB222', 125, 470),
+    fila('|', 100, 460, 0.5),
+    fila(' | ', 120, 460, 0.5),
+    fila('4', 130, 450),
+  ];
+
+  const r = parsearItems(soloRuido); // D4: no lanza `salió sin nombre`
+  const a = r.ciclos[0]!.asignaturas[0]!;
+
+  assert.equal(a.nombre, '', 'el vacío lo decide `validar`, no el parseo (RF-4)');
+  assert.equal(a.uv, 4, 'los demás campos siguen intactos');
+  assert.equal(a.codigo, 'BBB222');
+});
+
+test('RF-1 (spec 004): saneadoNombre colapsa espacios, quita barras y recorta', () => {
+  assert.equal(saneadoNombre('  Diseño   de | Contenidos  '), 'Diseño de Contenidos');
+  assert.equal(saneadoNombre(' | | | '), '');
+  assert.equal(saneadoNombre('Creatividad Publicitaria | | |'), 'Creatividad Publicitaria');
+  // Una barra que forma parte de un texto no es ruido de tabla: eso lo decide `depurarRuido`,
+  // que mira el ítem entero; aquí solo se normaliza lo compuesto.
+  assert.equal(saneadoNombre('Técnica'), 'Técnica');
 });

@@ -1,0 +1,128 @@
+[
+  {
+    "id": "virtual:ingenieria:plan-2024:ingenieria-industrial-a-distancia:7:EPI906",
+    "nombre": "Ecoeficiencia de Procesos Industriales",
+    "fuente": "pipeline/fuentes/pensum_ingenieria_industrial.pdf",
+    "motivo": "La capa de texto solo trae la 2ª y 3ª línea («de Procesos» / «Insdustriales»): la 1ª («Ecoeficiencia») está dibujada como trazos y no como texto, así que el nombre publicado sale sin mayúscula inicial y sin su primera palabra. Verificado renderizando la celda de EPI906 (ciclo 7) del PDF del propio pensum. La errata «Insdustriales» del PDF se corrige aquí a «Industriales» (decisión del mantenedor, 2026-10-09); el gemelo presencial EPI106 publica «Ecoeficiencia de Procesos Industriales»."
+  },
+  {
+    "id": "virtual:licenciatura:plan-2024:licenciatura-en-ciencias-de-la-comunicacion-a-distancia:1:GIC905",
+    "nombre": "Gestión de la Información y Conocimiento",
+    "fuente": "pipeline/fuentes/pensum_licenciatura_comunicaciones.jpg",
+    "motivo": "La UDB publica el pensum como imagen sin capa de texto y el OCR de página deja «y onocimiento». Verificado recortando la celda de GIC905 (ciclo I, fila 3) del JPG del pensum y leyéndola por separado."
+  },
+  {
+    "id": "virtual:licenciatura:plan-2024:licenciatura-en-ciencias-de-la-comunicacion-a-distancia:3:EFD905",
+    "nombre": "Edición de Fotografía Digital",
+    "fuente": "pipeline/fuentes/pensum_licenciatura_comunicaciones.jpg",
+    "motivo": "Truncado por el borde de la celda: solo queda «Edición de Fotografía» y se pierde «Digital», daño que el control no ve porque el nombre empieza en mayúscula y no lleva glifos. Verificado recortando la celda de EFD905 (ciclo III, fila 12) del JPG del pensum: «Edición de / Fotografía / Digital», idéntico al del Técnico en Multimedia."
+  },
+  {
+    "id": "virtual:licenciatura:plan-2024:licenciatura-en-ciencias-de-la-comunicacion-a-distancia:9:EYP905",
+    "nombre": "Etiqueta y Protocolo",
+    "fuente": "pipeline/fuentes/pensum_licenciatura_comunicaciones.jpg",
+    "motivo": "El glifo «[» de la grilla se cuela en el nombre («[oe Etiqueta y Protocolo»). Verificado recortando la celda de EYP905 (ciclo IX, fila 38) del JPG del pensum: el «[oe» es el ruido de una celda contigua, no parte del nombre."
+  },
+  {
+    "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:2:PRM919",
+    "nombre": "Preproducción Multimedia",
+    "fuente": "pipeline/fuentes/pensum_licenciatura_diseno_grafico.jpg",
+    "motivo": "Truncado por la izquierda: «e Preproducción Multimedia» (se pierde la «Pr» inicial y el nombre queda sin mayúscula). Verificado recortando la celda de PRM919 (ciclo II, fila 6) del JPG del pensum, homónima del Técnico en Diseño Gráfico."
+  },
+  {
+    "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:3:DCG919",
+    "nombre": "Dibujo Técnico para la Comunicación Gráfica",
+    "fuente": "pipeline/fuentes/pensum_licenciatura_diseno_grafico.jpg",
+    "motivo": "El nombre quedó destruido («Uy |»), así que ni el saneado ni la comparación con su homónimo alcanzan. Verificado recortando la celda de DCG919 (ciclo III, fila 11) del JPG del pensum: lleva «Técnico», igual que el del Técnico en Diseño Gráfica (fila contigua)."
+  },
+  {
+    "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:6:GCP919",
+    "nombre": "Gestión Cooperativa de Proyectos",
+    "fuente": "pipeline/fuentes/pensum_licenciatura_diseno_grafico.jpg",
+    "motivo": "Truncado por la izquierda («de Proyectos»). Verificado recortando la celda de GCP919 (ciclo VI, fila 25) del JPG del pensum: tres líneas, «Gestión / Cooperativa / de Proyectos»."
+  },
+  {
+    "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:9:DPA919",
+    "nombre": "Diseño de Productos Audiovisuales",
+    "fuente": "pipeline/fuentes/pensum_licenciatura_diseno_grafico.jpg",
+    "motivo": "Nombre perdido por completo en la extracción («| | |» → vacío). Verificado recortando la celda de DPA919 (ciclo IX, fila 35) del JPG del pensum: tres líneas, «Diseño de / Productos / Audiovisuales»."
+  },
+  {
+    "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:9:DWM919",
+    "nombre": "Diseño Web Móvil",
+    "fuente": "pipeline/fuentes/pensum_licenciatura_diseno_grafico.jpg",
+    "motivo": "Nombre perdido por completo en la extracción («| |» → vacío). Verificado recortando la celda de DWM919 (ciclo IX, fila 36) del JPG del pensum: «Diseño Web / Móvil», con 8 UV."
+  },
+  {
+    "id": "virtual:licenciatura:plan-2024:licenciatura-en-marketing-a-distancia:1:TIC902",
+    "nombre": "Tecnologías de Información y Comunicación",
+    "fuente": "pipeline/fuentes/pensum_licenciatura_marketing.jpg",
+    "motivo": "Truncado por la izquierda: «de Tecnologías Información y Comunicación» (se pierde la «T» de Tecnologías y el nombre queda sin mayúscula). Verificado recortando la celda de TIC902 (ciclo I, fila 4) del JPG del pensum, homónima del Técnico en Marketing Digital y Ventas."
+  },
+  {
+    "id": "virtual:licenciatura:plan-2024:licenciatura-en-marketing-a-distancia:4:CMM909",
+    "nombre": "Canales y Métricas de Marketing Digital",
+    "fuente": "pipeline/fuentes/pensum_licenciatura_marketing.jpg",
+    "motivo": "Truncado por el borde de la celda: solo queda «Canales y Métricas Digital» y se pierde «de Marketing», daño que el control no ve porque el nombre empieza en mayúscula y no lleva glifos. Verificado recortando la celda de CMM909 (ciclo IV, fila 16) del JPG del pensum: «Canales y Métricas / de Marketing Digital», idéntico al del Técnico en Marketing Digital y Ventas."
+  },
+  {
+    "id": "virtual:tecnico:plan-2024:tecnico-en-ingenieria-en-computacion-a-distancia:2:ADB901",
+    "nombre": "Análisis y Diseño de Sistemas y Bases de Datos",
+    "fuente": "pipeline/fuentes/pensum_tecnico_computacion.jpg",
+    "motivo": "El OCR de página deja el nombre en desorden y truncado («y Diseño Análisis de Sistemas y Bases»), sin mayúscula inicial. Verificado recortando la celda de ADB901 (ciclo II, fila 10) del JPG del pensum: «Análisis y Diseño de / Sistemas y Bases de / Datos». Ojo: el gemelo presencial ASB404 dice «Base de Datos» (singular); el pensum virtual dice «Bases»."
+  },
+  {
+    "id": "virtual:tecnico:plan-2024:tecnico-en-ingenieria-en-computacion-a-distancia:2:DAS901",
+    "nombre": "Desarrollo de Aplicaciones con Software Propietario",
+    "fuente": "pipeline/fuentes/pensum_tecnico_computacion.jpg",
+    "motivo": "Fragmentado y en desorden («de con Aplicaciones Software Propietario»), sin mayúscula inicial. Verificado recortando la celda de DAS901 (ciclo II, fila 9) del JPG del pensum: «Desarrollo de / Aplicaciones con / Software Propietario»."
+  },
+  {
+    "id": "virtual:tecnico:plan-2024:tecnico-en-ingenieria-en-computacion-a-distancia:3:ASN901",
+    "nombre": "Administración de Servicios en la Nube",
+    "fuente": "pipeline/fuentes/pensum_tecnico_computacion.jpg",
+    "motivo": "Truncado por la derecha hasta la preposición suelta («Administración de» + glifos), que es lo que detiene el control. Verificado recortando la celda de ASN901 (ciclo III, fila 15) del JPG del pensum: «Administración de / Servicios en la Nube»."
+  },
+  {
+    "id": "virtual:tecnico:plan-2024:tecnico-en-ingenieria-en-computacion-a-distancia:4:EIC901",
+    "nombre": "Electrónica Aplicada al Internet de las Cosas",
+    "fuente": "pipeline/fuentes/pensum_tecnico_computacion.jpg",
+    "motivo": "Glifos de la grilla («¡yy») y letras pegadas («Aplicadaal») mezclados con el texto. Verificado recortando la celda de EIC901 (ciclo IV, fila 17) del JPG del pensum: «Electrónica / Aplicada al Internet / de las Cosas»."
+  },
+  {
+    "id": "virtual:tecnico:plan-2024:tecnico-en-marketing-digital-y-ventas-a-distancia:1:TIC902",
+    "nombre": "Tecnologías de Información y Comunicación",
+    "fuente": "pipeline/fuentes/tecnico_marketing_y_ventas.jpg",
+    "motivo": "Truncado por la izquierda («de Tecnologías Información y Comunicación»), sin mayúscula inicial. Verificado recortando la celda de TIC902 (ciclo I, fila 4) del JPG del pensum, homónima de la Licenciatura en Marketing."
+  },
+  {
+    "id": "virtual:tecnico:plan-2024:tecnico-en-marketing-digital-y-ventas-a-distancia:4:CMM909",
+    "nombre": "Canales y Métricas de Marketing Digital",
+    "fuente": "pipeline/fuentes/tecnico_marketing_y_ventas.jpg",
+    "motivo": "Truncado por la izquierda: «e Canales y Métricas de Marketing Digital» (se pierde la «C» inicial y el nombre queda sin mayúscula). Verificado recortando la celda de CMM909 (ciclo IV, fila 16) del JPG del pensum, homónima de la Licenciatura en Marketing."
+  },
+  {
+    "id": "virtual:tecnico:plan-2024:tecnico-en-multimedia-a-distancia:1:GIC905",
+    "nombre": "Gestión de la Información y Conocimiento",
+    "fuente": "pipeline/fuentes/pensum_tecnico_multimedia.jpg",
+    "motivo": "Truncado y en desorden («la y Conocimiento»), sin mayúscula inicial. Verificado recortando la celda de GIC905 (ciclo I, fila 3) del JPG del pensum, homónima de la Licenciatura en Ciencias de la Comunicación."
+  },
+  {
+    "id": "virtual:tecnico:plan-2024:tecnico-en-multimedia-a-distancia:3:EFD905",
+    "nombre": "Edición de Fotografía Digital",
+    "fuente": "pipeline/fuentes/pensum_tecnico_multimedia.jpg",
+    "motivo": "Truncado a la última palabra («Digital»), lo que solo descubre RF-7 al compararlo con su homónimo de la Licenciatura. Verificado recortando la celda de EFD905 (ciclo III, fila 12) del JPG del pensum: «Edición de / Fotografía / Digital»."
+  },
+  {
+    "id": "virtual:tecnico:plan-2024:tecnico-en-diseno-grafico-a-distancia:3:TIP919",
+    "nombre": "Tipografía",
+    "fuente": "pipeline/fuentes/pensum_tecnico_diseno_grafico.jpg",
+    "motivo": "Truncado por la izquierda («ipografía»), sin mayúscula inicial. Verificado recortando la celda de TIP919 (ciclo III, fila 15) del JPG del pensum, homónima de la Licenciatura en Diseño Gráfico."
+  },
+  {
+    "id": "virtual:tecnico:plan-2024:tecnico-en-diseno-grafico-a-distancia:3:DCG919",
+    "nombre": "Dibujo Técnico para la Comunicación Gráfica",
+    "fuente": "pipeline/fuentes/pensum_tecnico_diseno_grafico.jpg",
+    "motivo": "El nombre lleva pegado el glifo «|» de la grilla («parala | Comunicación»), lo que solo descubre RF-7 al compararlo con su homónimo de la Licenciatura. Verificado recortando la celda de DCG919 (ciclo III, fila 11) del JPG del pensum: «Dibujo Técnico / para la Comunicación / Gráfica», idéntico al de la Licenciatura."
+  }
+]

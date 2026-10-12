@@ -846,6 +846,23 @@ async function repararUv(
 }
 
 /**
+ * Quita los **glifos de tabla**: las líneas divisorias de las celdas, que el lector devuelve
+ * como `|` (o `¦`) de 0,5 a 1,4 pt —66 en el pensum de Lic. Diseño Gráfico— y que sin esto se
+ * cuelan dentro del nombre (`Diseño de | Contenidos Multimedia`, spec 004 RF-2).
+ *
+ * La regla es **textual, no geométrica**: una barra suelta no puede ser una palabra (ninguno de
+ * los 1.794 nombres reales contiene una barra legítima) y el ancho no la salva, porque las
+ * mismas líneas salen a veces pegadas a 31 o 67 pt.
+ *
+ * Se aplica **solo al cuerpo y después de `separarTitulos`**: en la banda de los rótulos ese
+ * mismo `|` puede ser el romano `I` de un `Ciclo I` leído a trazos, y `romanoDe` lo tolera con
+ * intención. Antes del agrupado por columna, para que el ruido ni siquiera forme filas.
+ */
+export function depurarRuido<T extends { str: string }>(items: readonly T[]): T[] {
+  return items.filter((item) => !/^[|¦]+$/.test(item.str.trim()));
+}
+
+/**
  * Ítems de texto de un pensum publicado como imagen, en la misma convención que
  * `itemsDeDocumento`: puntos, `y` creciendo hacia arriba y una fila visual por línea.
  *
@@ -878,7 +895,9 @@ export async function itemsDeImagen(
       ...aPalabras(respaldo.data.blocks, escala, 'respaldo'),
     ];
     const { titulos, cuerpo: sinRenglones, barras } = separarTitulos(palabras);
-    const items = agruparPorColumna(sinRenglones, barras).flatMap((grupo) =>
+    // RF-2: el ruido de tabla se descarta sobre el cuerpo, ya separadas las bandas de rótulos
+    // (donde una `|` puede ser el romano `I`) y antes de agrupar por columna.
+    const items = agruparPorColumna(depurarRuido(sinRenglones), barras).flatMap((grupo) =>
       itemsDeGrupo(grupo, umbral),
     );
     // Orden de página: el encabezado se lee en el orden de entrada.

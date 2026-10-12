@@ -16099,7 +16099,7 @@
           {
             "id": "virtual:ingenieria:plan-2024:ingenieria-industrial-a-distancia:7:EPI906",
             "codigo": "EPI906",
-            "nombre": "de Procesos Insdustriales",
+            "nombre": "Ecoeficiencia de Procesos Industriales",
             "uv": 4,
             "prerrequisito": "ADC901",
             "electiva": false,
@@ -16722,7 +16722,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-ciencias-de-la-comunicacion-a-distancia:1:GIC905",
             "codigo": "GIC905",
-            "nombre": "y onocimiento",
+            "nombre": "Gestión de la Información y Conocimiento",
             "uv": 4,
             "prerrequisito": null,
             "electiva": false,
@@ -16813,7 +16813,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-ciencias-de-la-comunicacion-a-distancia:3:EFD905",
             "codigo": "EFD905",
-            "nombre": "Edición de Fotografía",
+            "nombre": "Edición de Fotografía Digital",
             "uv": 4,
             "prerrequisito": "TEF905",
             "electiva": false,
@@ -16863,7 +16863,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-ciencias-de-la-comunicacion-a-distancia:4:PPI905",
             "codigo": "PPI905",
-            "nombre": "Práctica Profesional |",
+            "nombre": "Práctica Profesional",
             "uv": 4,
             "prerrequisito": "EFD905",
             "electiva": false,
@@ -16904,7 +16904,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-ciencias-de-la-comunicacion-a-distancia:5:IYE905",
             "codigo": "IYE905",
-            "nombre": "| | Innovación y | Emprendimiento",
+            "nombre": "Innovación y Emprendimiento",
             "uv": 4,
             "prerrequisito": "PPI905",
             "electiva": false,
@@ -16931,7 +16931,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-ciencias-de-la-comunicacion-a-distancia:5:EDA905",
             "codigo": "EDA905",
-            "nombre": "| Estudio de Audiencias",
+            "nombre": "Estudio de Audiencias",
             "uv": 4,
             "prerrequisito": "POA905",
             "electiva": false,
@@ -17077,7 +17077,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-ciencias-de-la-comunicacion-a-distancia:9:EYP905",
             "codigo": "EYP905",
-            "nombre": "[oe Etiqueta y Protocolo",
+            "nombre": "Etiqueta y Protocolo",
             "uv": 4,
             "prerrequisito": "DMT905",
             "electiva": false,
@@ -17202,7 +17202,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:2:PRM919",
             "codigo": "PRM919",
-            "nombre": "e Preproducción Multimedia",
+            "nombre": "Preproducción Multimedia",
             "uv": 4,
             "prerrequisito": null,
             "electiva": false,
@@ -17252,7 +17252,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:3:DCG919",
             "codigo": "DCG919",
-            "nombre": "Uy |",
+            "nombre": "Dibujo Técnico para la Comunicación Gráfica",
             "uv": 4,
             "prerrequisito": "PRM919",
             "electiva": false,
@@ -17261,7 +17261,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:3:IAD919",
             "codigo": "IAD919",
-            "nombre": "| Aplicada al Diseño",
+            "nombre": "Aplicada al Diseño",
             "uv": 4,
             "prerrequisito": "EDG919",
             "electiva": false,
@@ -17270,7 +17270,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:3:DCM919",
             "codigo": "DCM919",
-            "nombre": "Diseño de | Contenidos Multimedia",
+            "nombre": "Diseño de Contenidos Multimedia",
             "uv": 4,
             "prerrequisito": "TDR919",
             "electiva": false,
@@ -17279,7 +17279,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:3:electiva-4",
             "codigo": "-",
-            "nombre": "Costos y de | Presupuestos Negocios de Diseño",
+            "nombre": "Costos y de Presupuestos Negocios de Diseño",
             "uv": 4,
             "prerrequisito": null,
             "electiva": true,
@@ -17288,7 +17288,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:3:TIP919",
             "codigo": "TIP919",
-            "nombre": "| Tipografía |",
+            "nombre": "Tipografía",
             "uv": 4,
             "prerrequisito": "TCV919",
             "electiva": false,
@@ -17302,7 +17302,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:4:DTR919",
             "codigo": "DTR919",
-            "nombre": "| | Diseño Tridimensional |",
+            "nombre": "Diseño Tridimensional",
             "uv": 4,
             "prerrequisito": "DCG919",
             "electiva": false,
@@ -17311,7 +17311,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:4:AND919",
             "codigo": "AND919",
-            "nombre": "| Animación Digital",
+            "nombre": "Animación Digital",
             "uv": 4,
             "prerrequisito": "IAD919",
             "electiva": false,
@@ -17320,7 +17320,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:4:CRP919",
             "codigo": "CRP919",
-            "nombre": "Creatividad Publicitaria | | |",
+            "nombre": "Creatividad Publicitaria",
             "uv": 4,
             "prerrequisito": "DCM919",
             "electiva": false,
@@ -17329,7 +17329,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:4:electiva-4",
             "codigo": "-",
-            "nombre": "| Investigación de Mercados | |",
+            "nombre": "Investigación de Mercados",
             "uv": 4,
             "prerrequisito": null,
             "electiva": true,
@@ -17338,7 +17338,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:4:PPM919",
             "codigo": "PPM919",
-            "nombre": "| | Publicación de Productos | Multimedia |",
+            "nombre": "Publicación de Productos Multimedia",
             "uv": 4,
             "prerrequisito": "TIP919",
             "electiva": false,
@@ -17393,7 +17393,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:6:GCP919",
             "codigo": "GCP919",
-            "nombre": "de Proyectos",
+            "nombre": "Gestión Cooperativa de Proyectos",
             "uv": 4,
             "prerrequisito": "INN919",
             "electiva": false,
@@ -17411,7 +17411,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:6:EMD919",
             "codigo": "EMD919",
-            "nombre": "Estrategias de Marketing Digital —|",
+            "nombre": "Estrategias de Marketing Digital —",
             "uv": 4,
             "prerrequisito": "MKT919",
             "electiva": false,
@@ -17452,7 +17452,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:7:DEE919",
             "codigo": "DEE919",
-            "nombre": "Diseño, oy | Estrategia de Empaques y Envases",
+            "nombre": "Diseño, oy Estrategia de Empaques y Envases",
             "uv": 4,
             "prerrequisito": "EPM919",
             "electiva": false,
@@ -17466,7 +17466,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:8:ADD919",
             "codigo": "ADD919",
-            "nombre": "| Animación 2D y 3D",
+            "nombre": "Animación 2D y 3D",
             "uv": 4,
             "prerrequisito": "MAD919",
             "electiva": false,
@@ -17484,7 +17484,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:8:LDP919",
             "codigo": "LDP919",
-            "nombre": "| Lógica de Programación",
+            "nombre": "Lógica de Programación",
             "uv": 4,
             "prerrequisito": "DEE919",
             "electiva": false,
@@ -17498,7 +17498,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:9:DPA919",
             "codigo": "DPA919",
-            "nombre": "| | |",
+            "nombre": "Diseño de Productos Audiovisuales",
             "uv": 4,
             "prerrequisito": "ADD919",
             "electiva": false,
@@ -17507,7 +17507,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:9:DWM919",
             "codigo": "DWM919",
-            "nombre": "| |",
+            "nombre": "Diseño Web Móvil",
             "uv": 4,
             "prerrequisito": null,
             "electiva": false,
@@ -17516,7 +17516,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-diseno-grafico-a-distancia:9:EPI919",
             "codigo": "EPI919",
-            "nombre": "Ética y Propiedad Intelectual | |",
+            "nombre": "Ética y Propiedad Intelectual",
             "uv": 4,
             "prerrequisito": "LDP919",
             "electiva": false,
@@ -17591,7 +17591,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-marketing-a-distancia:1:TIC902",
             "codigo": "TIC902",
-            "nombre": "de Tecnologías Información y Comunicación",
+            "nombre": "Tecnologías de Información y Comunicación",
             "uv": 4,
             "prerrequisito": null,
             "electiva": false,
@@ -17655,7 +17655,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-marketing-a-distancia:3:ADE920",
             "codigo": "ADE920",
-            "nombre": "Análisis de Datos Empresariales |",
+            "nombre": "Análisis de Datos Empresariales",
             "uv": 4,
             "prerrequisito": "TIC902",
             "electiva": false,
@@ -17714,7 +17714,7 @@
           {
             "id": "virtual:licenciatura:plan-2024:licenciatura-en-marketing-a-distancia:4:CMM909",
             "codigo": "CMM909",
-            "nombre": "Canales y Métricas Digital |",
+            "nombre": "Canales y Métricas de Marketing Digital",
             "uv": 4,
             "prerrequisito": "MAC920",
             "electiva": false,
@@ -18282,7 +18282,7 @@
           {
             "id": "virtual:tecnico:plan-2024:tecnico-en-diseno-grafico-a-distancia:2:TCV919",
             "codigo": "TCV919",
-            "nombre": "Técnicas de ición | Composición Visual",
+            "nombre": "Técnicas de ición Composición Visual",
             "uv": 4,
             "prerrequisito": null,
             "electiva": false,
@@ -18296,7 +18296,7 @@
           {
             "id": "virtual:tecnico:plan-2024:tecnico-en-diseno-grafico-a-distancia:3:DCG919",
             "codigo": "DCG919",
-            "nombre": "| Dibujo Técnico parala | Comunicación Gráfica",
+            "nombre": "Dibujo Técnico para la Comunicación Gráfica",
             "uv": 4,
             "prerrequisito": "PRM919",
             "electiva": false,
@@ -18323,7 +18323,7 @@
           {
             "id": "virtual:tecnico:plan-2024:tecnico-en-diseno-grafico-a-distancia:3:CND919",
             "codigo": "CND919",
-            "nombre": "| Presupuestos | de Negocios de Diseño",
+            "nombre": "Presupuestos de Negocios de Diseño",
             "uv": 4,
             "prerrequisito": "TFO919",
             "electiva": false,
@@ -18332,7 +18332,7 @@
           {
             "id": "virtual:tecnico:plan-2024:tecnico-en-diseno-grafico-a-distancia:3:TIP919",
             "codigo": "TIP919",
-            "nombre": "ipografía",
+            "nombre": "Tipografía",
             "uv": 4,
             "prerrequisito": "TCV919",
             "electiva": false,
@@ -18484,7 +18484,7 @@
           {
             "id": "virtual:tecnico:plan-2024:tecnico-en-ingenieria-en-computacion-a-distancia:2:DAS901",
             "codigo": "DAS901",
-            "nombre": "de con Aplicaciones Software Propietario",
+            "nombre": "Desarrollo de Aplicaciones con Software Propietario",
             "uv": 4,
             "prerrequisito": "PDA901",
             "electiva": false,
@@ -18493,7 +18493,7 @@
           {
             "id": "virtual:tecnico:plan-2024:tecnico-en-ingenieria-en-computacion-a-distancia:2:ADB901",
             "codigo": "ADB901",
-            "nombre": "y Diseño Análisis de Sistemas y Bases",
+            "nombre": "Análisis y Diseño de Sistemas y Bases de Datos",
             "uv": 4,
             "prerrequisito": "RDC901",
             "electiva": false,
@@ -18534,7 +18534,7 @@
           {
             "id": "virtual:tecnico:plan-2024:tecnico-en-ingenieria-en-computacion-a-distancia:3:SPP901",
             "codigo": "SPP901",
-            "nombre": "| Servidores en Plataformas Propietarias",
+            "nombre": "Servidores en Plataformas Propietarias",
             "uv": 4,
             "prerrequisito": "RDC901",
             "electiva": false,
@@ -18543,7 +18543,7 @@
           {
             "id": "virtual:tecnico:plan-2024:tecnico-en-ingenieria-en-computacion-a-distancia:3:ASN901",
             "codigo": "ASN901",
-            "nombre": "Administración de | |",
+            "nombre": "Administración de Servicios en la Nube",
             "uv": 4,
             "prerrequisito": "RDC901",
             "electiva": false,
@@ -18566,7 +18566,7 @@
           {
             "id": "virtual:tecnico:plan-2024:tecnico-en-ingenieria-en-computacion-a-distancia:4:EIC901",
             "codigo": "EIC901",
-            "nombre": "Electrónica Internet | ¡yy | Aplicadaal de las Cosas",
+            "nombre": "Electrónica Aplicada al Internet de las Cosas",
             "uv": 4,
             "prerrequisito": "ASN901",
             "electiva": false,
@@ -18593,7 +18593,7 @@
           {
             "id": "virtual:tecnico:plan-2024:tecnico-en-ingenieria-en-computacion-a-distancia:4:ADP901",
             "codigo": "ADP901",
-            "nombre": "Administración | de Proyectos",
+            "nombre": "Administración de Proyectos",
             "uv": 4,
             "prerrequisito": "ADB901",
             "electiva": false,
@@ -18645,7 +18645,7 @@
           {
             "id": "virtual:tecnico:plan-2024:tecnico-en-marketing-digital-y-ventas-a-distancia:1:TIC902",
             "codigo": "TIC902",
-            "nombre": "de Tecnologías Información y Comunicación",
+            "nombre": "Tecnologías de Información y Comunicación",
             "uv": 4,
             "prerrequisito": null,
             "electiva": false,
@@ -18768,7 +18768,7 @@
           {
             "id": "virtual:tecnico:plan-2024:tecnico-en-marketing-digital-y-ventas-a-distancia:4:CMM909",
             "codigo": "CMM909",
-            "nombre": "e Canales y Métricas de Marketing Digital",
+            "nombre": "Canales y Métricas de Marketing Digital",
             "uv": 4,
             "prerrequisito": "MAC920",
             "electiva": false,
@@ -18811,7 +18811,7 @@
           {
             "id": "virtual:tecnico:plan-2024:tecnico-en-multimedia-a-distancia:1:GIC905",
             "codigo": "GIC905",
-            "nombre": "la y Conocimiento",
+            "nombre": "Gestión de la Información y Conocimiento",
             "uv": 4,
             "prerrequisito": null,
             "electiva": false,
@@ -18902,7 +18902,7 @@
           {
             "id": "virtual:tecnico:plan-2024:tecnico-en-multimedia-a-distancia:3:EFD905",
             "codigo": "EFD905",
-            "nombre": "Digital",
+            "nombre": "Edición de Fotografía Digital",
             "uv": 4,
             "prerrequisito": "TEF905",
             "electiva": false,
@@ -18952,7 +18952,7 @@
           {
             "id": "virtual:tecnico:plan-2024:tecnico-en-multimedia-a-distancia:4:PPI905",
             "codigo": "PPI905",
-            "nombre": "Práctica Profesional |",
+            "nombre": "Práctica Profesional",
             "uv": 4,
             "prerrequisito": "EFD905",
             "electiva": false,

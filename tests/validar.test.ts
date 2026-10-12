@@ -1,11 +1,14 @@
-// T7 (RF-2, RF-3, RF-4, RF-10, RF-13) — pipeline/validar.ts: triangulación de totales y
-// parada total.
+// T7/T4 (RF-2, RF-3, RF-4, RF-5, RF-7, RF-10, RF-13) — pipeline/validar.ts: triangulación de
+// totales, control de nombres y parada total.
 //
 // Tres fuentes deben decir lo mismo antes de publicar:
 //   sitio (manifiesto) ↔ encabezado del PDF ↔ suma de las filas extraídas.
 // Si alguna difiere, hay error **con los tres valores y la carrera exacta** (RF-2/RF-3) y
 // `publicable` pasa a false: nunca se entrega un dataset parcial (RF-13, D2).
-// Las advertencias (prerrequisito huérfano, plantilla sin encabezado…) registran y siguen.
+// Igual de bloqueante es el **control de nombres** (RF-5): cinco reglas objetivas sobre el
+// texto y cualquiera por separado detiene la publicación con carrera, código y ciclo (RF-4).
+// Las advertencias (prerrequisito huérfano, plantilla sin encabezado, nombres divergentes
+// entre planes) registran y siguen.
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -225,4 +228,103 @@ test('T7: los errores se acumulan entre planes y todos impiden publicar (RF-13)'
   assert.match(r.errores[0]!.message, /Carrera Mala A/);
   assert.match(r.errores[1]!.message, /Carrera Mala B/);
   assert.equal(publicable(r), false, 'un solo error basta para detener toda la publicación');
+});
+
+// --- T4 (RF-4, RF-5, RF-7) — control de nombres bloqueante y divergencia entre planes -------
+//
+// RF-5 convierte RF-1 en una validación y le da el mismo trato que a un descuadre de UV:
+// **cinco reglas objetivas, sin diccionario**, y cualquiera por separado detiene la publicación
+// señalando carrera, código y ciclo (RF-4: nunca se publica un nombre vacío).
+// Lo que ninguna regla estructural puede decidir —una palabra leída mal sin que se note— lo
+// cubre RF-7, que **no** bloquea: avisa para que alguien coteje los dos documentos, que son
+// los que mandan.
+
+/** Pendiente sano cuya primera asignatura (AAA101, ciclo 1) lleva el nombre indicado. */
+function conNombre(nombre: string): PendienteValidacion {
+  const plan = structuredClone(PLAN_BASE);
+  plan.ciclos[0]!.asignaturas[0]!.nombre = nombre;
+  return sano({ plan });
+}
+
+const REGLAS_RF5: ReadonlyArray<readonly [string, string, RegExp]> = [
+  ['a) vacío', '', /está vacío/],
+  ['a) menos de 4 caracteres', 'Uy', /mide 2 caracteres.*al menos 4/],
+  ['b) glifo de la grilla', 'Cálculo | Diferencial', /glifo/],
+  ['c) espacios dobles', 'Materia  Dos', /espacios dobles/],
+  ['c) espacios en los extremos', ' Materia Dos', /espacios en los extremos/],
+  ['d) sin mayúscula inicial', 'ipografía', /mayúscula/],
+  ['e) último token = preposición', 'Administración de', /preposición/],
+];
+
+for (const [regla, nombre, motivo] of REGLAS_RF5) {
+  test(`T4: la regla ${regla} del control de nombres detiene la publicación (RF-5)`, () => {
+    const r = validar([conNombre(nombre)]);
+    assert.equal(publicable(r), false, `la regla ${regla} debe ser bloqueante`);
+
+    // El informe debe permitir ir directo a la asignatura: carrera, código y ciclo (RF-4).
+    assert.equal(r.errores.length, 1, JSON.stringify(r.errores.map((e) => e.message)));
+    const m = r.errores[0]!.message;
+    assert.match(m, /Ingeniería de Prueba/, 'carrera');
+    assert.match(m, /AAA101/, 'código');
+    assert.match(m, /ciclo 1/, 'ciclo');
+    assert.match(m, motivo, 'el motivo concreto de la regla violada');
+    assert.match(m, /No se publica el dataset/);
+  });
+}
+
+test('T4: los nombres legítimos con símbolos o dígitos no bloquean (RF-5 sin falsos positivos)', () => {
+  const legitimos = [
+    'Circuitos Eléctricos & Electrónica', // &
+    'Termodinámica °C y Fluidos', // °
+    'Álgebra Lineal, Vectores y Matrices', // coma
+    'Cálculo Integral (variables complejas)', // paréntesis
+    'Programación 1 y 2', // dígitos
+    'Inglés A1', // cohorte alfanumérica
+    'Métodos Numéricos Aplicados', // empieza en mayúscula y termina en sustantivo
+    'Cálculo Diferencial .', // punto final, tal como sale en varios pensums
+  ];
+  for (const nombre of legitimos) {
+    const r = validar([conNombre(nombre)]);
+    assert.equal(r.errores.length, 0, `«${nombre}» no debe bloquear: ${JSON.stringify(r.errores.map((e) => e.message))}`);
+    assert.equal(publicable(r), true, `«${nombre}» no debe bloquear`);
+  }
+});
+
+test('T4: mismo código con nombres muy distintos en dos planes ⇒ advertencia, no error (RF-7)', () => {
+  const a = structuredClone(PLAN_BASE);
+  const b = { ...structuredClone(PLAN_BASE), carrera: 'Técnico en Prueba' }; // clave distinta
+  a.ciclos[0]!.asignaturas[0]!.nombre = 'Estadística de Negocios';
+  b.ciclos[0]!.asignaturas[0]!.nombre = 'Digital';
+
+  const r = validar([sano({ plan: a }), sano({ plan: b })]);
+  assert.deepEqual(r.errores, [], JSON.stringify(r.errores.map((e) => e.message)));
+  assert.equal(publicable(r), true, 'RF-7 avisa: la decisión de corregir es del cotejo, no del control');
+
+  const divergencias = r.advertencias.filter((w) => w.includes('AAA101'));
+  assert.equal(divergencias.length, 1, JSON.stringify(r.advertencias));
+  assert.match(divergencias[0]!, /Estadística de Negocios/);
+  assert.match(divergencias[0]!, /Digital/);
+  assert.match(divergencias[0]!, /Ingeniería de Prueba/);
+  assert.match(divergencias[0]!, /Técnico en Prueba/);
+
+  // El mismo código con el mismo nombre en los dos planes no es noticia (AAA102 y la electiva
+  // aparecen en ambos planes con idéntico nombre).
+  assert.deepEqual(r.advertencias.filter((w) => w.includes('AAA102')), []);
+  assert.deepEqual(r.advertencias.filter((w) => w.includes('electiva-1-3')), []);
+});
+
+test('T4: el mismo código reusado dentro de una sola carrera no es divergencia (RF-7)', () => {
+  // Como EDN902 en la Lic. en Administración de Empresas: un código que la UDB repite entre
+  // ciclos de la misma carrera con nombres distintos no es señal de error.
+  const plan = structuredClone(PLAN_BASE);
+  const original = plan.ciclos[0]!.asignaturas;
+  plan.ciclos.push({ numero: 2, asignaturas: original.map((a) => ({ ...a, id: `${a.id}:c2` })) });
+  plan.ciclos[1]!.asignaturas[0]!.nombre = 'Digital';
+  plan.uvTotal = 24;
+  plan.materiasTotal = 6;
+
+  const r = validar([sano({ plan })]);
+  assert.deepEqual(r.errores, [], JSON.stringify(r.errores.map((e) => e.message)));
+  assert.deepEqual(r.advertencias, [], 'mismo plan ⇒ reuso legítimo, no se avisa');
+  assert.equal(publicable(r), true);
 });
